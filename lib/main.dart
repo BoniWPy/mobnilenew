@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return new MaterialApp(
       color: Colors.blue,
+      debugShowCheckedModeBanner: false,
       home: new Splash(),
     );
   }

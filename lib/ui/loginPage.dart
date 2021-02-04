@@ -392,12 +392,31 @@ class _LoginPageState extends State<LoginPage>
 
     if (loginPhonController.text.length <= 10 &&
         loginOtpController.text.length != 6) {
-      Future.delayed(Duration(seconds: 1)).then((onValue) {
-        Navigator.push(
-            context,
-            new MaterialPageRoute(
-                builder: (context) => InAppWebViewExampleScreen()));
-      });
+      // Future.delayed(Duration(seconds: 1)).then((onValue) {
+      //   Navigator.push(
+      //       context,
+      //       new MaterialPageRoute(
+      //           builder: (context) => InAppWebViewExampleScreen()));
+      // });
+      print("kurang dari sepuluh");
+      Alert(
+        context: context,
+        style: alertStyle,
+        title: "Masukan No Handphone",
+        image: Image.asset("assets/img/mobile_pay.png"),
+        buttons: [
+          DialogButton(
+            child: Text(
+              "OK",
+              style: TextStyle(color: Colors.white, fontSize: 20),
+            ),
+            onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+            // color: Color.fromRGBO(0, 179, 134, 1.0),
+            color: Colors.blue[300],
+            radius: BorderRadius.circular(20.0),
+          ),
+        ],
+      ).show();
     } else if (loginPhonController.text.length <= 10 &&
         loginOtpController.text.length == 6) {
       //validatiion befor typing mobile number and otp
@@ -506,7 +525,8 @@ class _LoginPageState extends State<LoginPage>
               context,
               new MaterialPageRoute(
                   builder: (context) =>
-                      dashboard(_visibleCheckIn, _visibleCheckOut)));
+                      // dashboard(_visibleCheckIn, _visibleCheckOut)
+                      InAppWebViewExampleScreen()));
         });
       } else {
         print('gagal login');

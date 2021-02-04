@@ -105,6 +105,7 @@ dependencies:
   fl_chart: ^0.2.0
   floating_action_bubble: 1.0.9
   ss_bottom_navbar: 0.1.0
+  flutter_screenutil: ^0.4.2
   
 
 dev_dependencies:
@@ -160,6 +161,7 @@ flutter:
       - assets/img/slider.png
       - assets/img/notification_1.png
       - assets/img/notification_2.png
+
 
 
       - assets/error.html
