@@ -1,4 +1,4 @@
-package com.example.new_payrightsystem
+package com.payrightsystem.new_absensi
 
 import io.flutter.embedding.android.FlutterActivity
 

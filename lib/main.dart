@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:new_payrightsystem/ui/loginPage.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+
 import 'package:new_payrightsystem/ui/Home/dashboardzakir.dart';
 import 'package:new_payrightsystem/utils/network/conectivity.dart';
 import 'package:new_payrightsystem/utils/notification_services.dart';
@@ -123,7 +124,8 @@ class SplashState extends State<Splash> {
   @override
   void initState() {
     super.initState();
-    new Timer(new Duration(milliseconds: 5000), () {
+    // FirebaseApp.initializeApp();
+    new Timer(new Duration(milliseconds: 3000), () {
       //getSavedData();
       pageRouteCheck();
       // print('pemanggilan class');

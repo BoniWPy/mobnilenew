@@ -324,7 +324,7 @@ class _ScanState extends State<ScanScreenOut> {
           Future.delayed(Duration(seconds: 1)).then((onValue) {
             pr.hide();
           });
-          setState(() => this.result = 'Unknown error: $e');
+          // setState(() => this.result = 'Unknown error: $e');
         }
       }
     }

@@ -1,5 +1,5 @@
 name: new_payrightsystem
-description: A new Flutter project.
+description: Payrightsystem Asensi.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
@@ -161,6 +161,10 @@ flutter:
       - assets/img/slider.png
       - assets/img/notification_1.png
       - assets/img/notification_2.png
+      - assets/img/absenmasuk.png
+      - assets/img/absenkeluar.png
+      - assets/img/simpanlokasi.png
+
 
 
 

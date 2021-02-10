@@ -1,0 +1,126 @@
+{
+  "project_info": {
+    "project_number": "791882044383",
+    "project_id": "payrightsystem-f4c95",
+    "storage_bucket": "payrightsystem-f4c95.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791882044383:android:5a006f4f9af7a91d22ea6a",
+        "android_client_info": {
+          "package_name": "com.example.new_payrightsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791882044383-mjshpu5inqhod8j27hh9lb330n5lcvkt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_qE-wVh6Z0u-DqufOkpEqHLAZSe9GToM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791882044383-mjshpu5inqhod8j27hh9lb330n5lcvkt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791882044383:android:7c4829a540adc83b22ea6a",
+        "android_client_info": {
+          "package_name": "com.flutter_fcm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791882044383-mjshpu5inqhod8j27hh9lb330n5lcvkt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_qE-wVh6Z0u-DqufOkpEqHLAZSe9GToM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791882044383-mjshpu5inqhod8j27hh9lb330n5lcvkt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791882044383:android:7f66c50f946acc8a22ea6a",
+        "android_client_info": {
+          "package_name": "com.payrightsystem.absensi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791882044383-mjshpu5inqhod8j27hh9lb330n5lcvkt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_qE-wVh6Z0u-DqufOkpEqHLAZSe9GToM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791882044383-mjshpu5inqhod8j27hh9lb330n5lcvkt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:791882044383:android:efd2587ec1b3fbdf22ea6a",
+        "android_client_info": {
+          "package_name": "com.payrightsystem.new_absensi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "791882044383-mjshpu5inqhod8j27hh9lb330n5lcvkt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD_qE-wVh6Z0u-DqufOkpEqHLAZSe9GToM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "791882044383-mjshpu5inqhod8j27hh9lb330n5lcvkt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
