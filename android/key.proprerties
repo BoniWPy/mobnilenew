@@ -1,0 +1,4 @@
+storePassword=Hash2856
+keyPassword=Hash2856
+keyAlias=key
+storeFile=/Users/macbook/Documents/fdir/mobnilenew/key.jks
