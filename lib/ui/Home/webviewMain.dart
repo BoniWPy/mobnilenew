@@ -673,21 +673,52 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
     showDialog(
         context: context,
         builder: (BuildContext context) {
+          // return AlertDialog(
+          //     scrollable: true,
+          //     content: Stack(
+          //       alignment: Alignment.center,
+          //       children: <Widget>[
+          //         Image.asset(
+          //           'assets/img/notification_2.png',
+          //           height: 200,
+          //           fit: BoxFit.cover,
+          //         ),
+          //         Text(
+          //           'Notifikasi',
+          //           style: TextStyle(
+          //               color: Colors.black87,
+          //               fontWeight: FontWeight.w400,
+          //               fontFamily: "Poppins"),
+          //         ),
+          //       ],
+          //     ));
           return AlertDialog(
-            backgroundColor: Colors.grey[200],
+            backgroundColor: Colors.white, //.grey[200],
             titlePadding: EdgeInsets.all(10.0),
             contentPadding: EdgeInsets.all(0.0),
             scrollable: true,
-            title: Text("Notifikasi",
-                style: TextStyle(
-                    color: Colors.black87,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: "Poppins")),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(25.0),
+                side: BorderSide(color: Colors.grey)),
+            title: Text(
+              "Notifikasi",
+              style: TextStyle(
+                color: Colors.black87,
+                fontWeight: FontWeight.w400,
+                fontFamily: "Poppins",
+              ),
+              textAlign: TextAlign.center,
+            ),
             content: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
-              // Divider(
-              //   height: 1.0,
-              //   color: Colors.grey,
-              // ),
+              Image.asset(
+                'assets/img/notification_1.png',
+                height: 75,
+                fit: BoxFit.cover,
+              ),
+              Divider(
+                height: 1.0,
+                color: Colors.grey,
+              ),
               Flexible(
                 child: SingleChildScrollView(
                   child: Column(
@@ -695,14 +726,13 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
                       children: getMyList()),
                 ),
               ),
-
               Padding(
                 padding: EdgeInsets.only(
                     left: 10.0, right: 10.0, top: 2.0, bottom: 5.0),
                 child: Row(
                   children: <Widget>[
                     Expanded(
-                      child: FlatButton(
+                      child: RaisedButton(
                         color: Theme.of(context).primaryColor,
                         textColor: Colors.white,
                         shape: OutlineInputBorder(
@@ -794,6 +824,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
   //var for get the list notification from the list
   int getNotifTerload = 0;
   List<Widget> getMyList() {
+    print('terload nyah');
+    print(getNotifTerload);
     if (getNotifTerload == 0) {
       getNotification();
     }
@@ -803,7 +835,13 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
     return myListNotif.map((x) {
       return Padding(
         padding: EdgeInsets.all(10.0),
-        child: Column(children: <Widget>[Text(x)]),
+        child: Column(children: <Widget>[
+          Text(
+            x,
+            style: TextStyle(
+                color: Colors.grey[800], fontSize: 16, fontFamily: "Poppins"),
+          )
+        ]),
       );
     }).toList();
   }

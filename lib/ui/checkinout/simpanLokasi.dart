@@ -180,7 +180,7 @@ class _ScanState extends State<SimpanLokasi> {
         appBar: new AppBar(
           title: new Text('Finding Location..'),
         ),
-        body: Center(child: Image.asset('assets/img/location_tracking.png')));
+        body: Center(child: Image.asset('assets/animations/track.gif')));
     // body: new Center(
     //   child: new Column(
     //     mainAxisAlignment: MainAxisAlignment.center,
