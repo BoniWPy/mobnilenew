@@ -38,6 +38,8 @@ android {
         disable 'InvalidPackage'
     }
 
+    
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.payrightsystem.new_absensi"
@@ -45,14 +47,27 @@ android {
         targetSdkVersion 29
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
-        testInstrumentationRunner “android.support.test.runner.AndroidJUnitRunner”
+        // testInstrumentationRunner “android.support.test.runner.AndroidJUnitRunner”
     }
+
+//     //release
+//     signingConfigs {
+//       release {
+//           keyAlias keystoreProperties['keyAlias']
+//           keyPassword keystoreProperties['keyPassword']
+//           storeFile file(keystoreProperties['storeFile'])
+//           storePassword keystoreProperties['storePassword']
+//       }
+//   }
 
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
+
+            //sigining for release
+           //signingConfig signingConfig.release
         }
     }
 }

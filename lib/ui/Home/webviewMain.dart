@@ -366,10 +366,12 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         //           })
         //     ]),
         floatingActionButton: FabCircularMenu(
-            ringDiameter: MediaQuery.of(context).size.width * 0.75,
-            ringWidth: MediaQuery.of(context).size.width * 0.75 * 0.3,
+            // ringDiameter: MediaQuery.of(context).size.width * 0.75,
+            // ringWidth: MediaQuery.of(context).size.width * 0.75 * 0.3,
+            ringDiameter: MediaQuery.of(context).size.width * 1.95,
+            ringWidth: MediaQuery.of(context).size.width * 1.95 * 0.3,
             alignment: Alignment.bottomRight,
-            fabSize: 82.0,
+            fabSize: 100.0,
             fabElevation: 25.0,
             fabColor: Colors.white,
             fabMargin: EdgeInsets.only(right: 15, bottom: 35),
@@ -826,9 +828,11 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
   List<Widget> getMyList() {
     print('terload nyah');
     print(getNotifTerload);
-    if (getNotifTerload == 0) {
-      getNotification();
-    }
+    // if (getNotifTerload == 1) {
+    //   getNotification();
+    // }
+
+    getNotification();
     var totalPesan = myListNotif.length;
     print("'total list di getmylist => ', $totalPesan");
 
