@@ -309,6 +309,14 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
                 child: myAppBarIcon(),
                 onPressed: () => showMyDialogNotification(context),
               ),
+              FlatButton(
+                child: myAppBarIcon(),
+                onPressed: () => showMyDialogNotification(context),
+              ),
+              FlatButton(
+                child: myAppBarIcon(),
+                onPressed: () => showMyDialogNotification(context),
+              ),
             ]
 
             // [
@@ -769,7 +777,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         print('jumlah notifikasi');
         print(newNotificationCounterValue.toString());
         //returns an empty container if the value is 0 and returns the Stack otherwise
-        return newNotificationCounterValue == 0
+        return newNotificationCounterValue == 1
             ? Container()
             : Stack(
                 alignment: AlignmentDirectional.topCenter,
