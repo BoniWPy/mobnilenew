@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:new_payrightsystem/ui/checkinout/simpanLokasi.dart';
@@ -725,6 +726,11 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
                 height: 5.0,
                 color: Colors.grey,
               ),
+              Flexible(
+                  child: SingleChildScrollView(
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: getMyList()))),
               Padding(
                 padding: EdgeInsets.only(
                     left: 10.0, right: 10.0, top: 2.0, bottom: 5.0),
@@ -825,7 +831,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
   List<Widget> getMyList() {
     print('terload nyah');
     print(getNotifTerload);
-    if (getNotifTerload == 1) {
+    if (getNotifTerload == 0) {
       getNotification();
     }
 
