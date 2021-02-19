@@ -328,6 +328,6 @@ class _ScanState extends State<SimpanLokasi> {
         ),
       ),
     );
-    showDialog(context: context, child: alertDialog);
+    // showDialog(context: context, child: alertDialog);
   }
 }

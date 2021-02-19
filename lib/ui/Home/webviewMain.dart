@@ -26,7 +26,7 @@ import 'package:progress_dialog/progress_dialog.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 import 'package:new_payrightsystem/ui/Home/dashboardzakir.dart';
@@ -35,6 +35,14 @@ import 'package:new_payrightsystem/data/model/NotifikasiModel.dart';
 import 'package:new_payrightsystem/data/DatabaseHelper.dart';
 import 'package:new_payrightsystem/ui/checkinout/checkIn.dart';
 import 'package:new_payrightsystem/ui/checkinout/checkOut.dart';
+
+import 'package:flash/flash.dart';
+import 'package:overlay_support/overlay_support.dart';
+
+// import 'package:another_flushbar/flushbar.dart';
+// import 'package:another_flushbar/flushbar_helper.dart';
+// import 'package:another_flushbar/flushbar_route.dart';
+// import 'package:another_flushbar/main.dart';
 
 // import 'package:new_payrightsystem/utils/notification/notification_page.dart';
 // import 'package:new_payrightsystem/ui/checkinout/checkIn.dart';
@@ -155,6 +163,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
       // ignore: missing_return
       onMessage: (Map<String, dynamic> message) {
         print('isi pesan nya on message ${message}');
+        print('tampil');
+        _showBottomFlash();
 
         final DateTime now = DateTime.now();
         final DateFormat formatTanggal = DateFormat('yyyy-MM-dd');
@@ -172,6 +182,9 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
           'unread',
           ' https://go.payrightsystem.com/shareurl?token=yR53ityMI3lS3Z4txG1c26rs29g1LPt38Ovo1F2SSN7ad3KGwakrE3psGeicfgfyDUv-S4Tmi2p2eSutOdKpO9dUiEtwRaOP',
         );
+        print('notif atas');
+        //showNotifUper();
+
         print('isi pesan nya on message ${message}');
 
         databaseHelper.saveNotification(dataNotifikasi);
@@ -183,25 +196,27 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         notificationCounterValueNotifer
             .notifyListeners(); // notify listeners here so ValueListenableBuilder will build the widget.
 
-        Alert(
-          context: context,
-          style: alertStyle,
-          title: message['notification']['body'],
-          image: Image.asset("assets/img/new_notification.png"),
-          buttons: [
-            DialogButton(
-              child: Text(
-                message['notification']['title'],
-                style: TextStyle(
-                    color: Colors.white, fontSize: 14, fontFamily: "Poppins"),
-              ),
-              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-              // color: Color.fromRGBO(0, 179, 134, 1.0),
-              color: Colors.blue[300],
-              radius: BorderRadius.circular(20.0),
-            ),
-          ],
-        ).show();
+        // showDefaultSnackbar(context);
+
+        // Alert(
+        //   context: context,
+        //   style: alertStyle,
+        //   title: message['notification']['body'],
+        //   image: Image.asset("assets/img/new_notification.png"),
+        //   buttons: [
+        //     DialogButton(
+        //       child: Text(
+        //         message['notification']['title'],
+        //         style: TextStyle(
+        //             color: Colors.white, fontSize: 14, fontFamily: "Poppins"),
+        //       ),
+        //       onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+        //       // color: Color.fromRGBO(0, 179, 134, 1.0),
+        //       color: Colors.blue[300],
+        //       radius: BorderRadius.circular(20.0),
+        //     ),
+        //   ],
+        // ).show();
         // _showItemDialog(message);
       },
       // ignore: missing_return
@@ -248,15 +263,15 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
     if (payload != null) {
       debugPrint('notification payload: ' + payload);
     }
-    await Fluttertoast.showToast(
-      msg: "Notification Clicked",
-      toastLength: Toast.LENGTH_SHORT,
-      gravity: ToastGravity.BOTTOM,
-      timeInSecForIos: 1,
-      backgroundColor: Colors.black54,
-      textColor: Colors.white,
-      fontSize: 16.0,
-    );
+    // await Fluttertoast.showToast(
+    //   msg: "Notification Clicked",
+    //   toastLength: Toast.LENGTH_SHORT,
+    //   gravity: ToastGravity.BOTTOM,
+    //   timeInSecForIos: 1,
+    //   backgroundColor: Colors.black54,
+    //   textColor: Colors.white,
+    //   fontSize: 16.0,
+    // );
     //firebase end
 
     contextMenu = ContextMenu(
@@ -376,7 +391,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
             ringDiameter: MediaQuery.of(context).size.width * 1.95,
             ringWidth: MediaQuery.of(context).size.width * 1.95 * 0.3,
             alignment: Alignment.bottomRight,
-            fabSize: 90.0,
+            fabSize: 180.0,
             fabElevation: 25.0,
             fabColor: Colors.white,
             fabMargin: EdgeInsets.only(right: 15, bottom: 10),
@@ -501,6 +516,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
                               return;
                             }
                             // webHeight = double.parse('$value');
+                            // _showBasicsFlash();
+                            // _showBasicsFlash();
 
                             // setState(() {
                             //   // webHeight = double.parse('$value');
@@ -540,8 +557,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
   Widget fabsinglemenuAbsenMasuk(IconData icon, Function onPressFunction) {
     return SizedBox(
-        width: 90.0,
-        height: 90.0,
+        width: 180.0,
+        height: 180.0,
         //height and width for menu button
 
         child: FlatButton(
@@ -556,8 +573,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
   Widget fabsinglemenuAbsenKeluar(IconData icon, Function onPressFunction) {
     return SizedBox(
-      width: 90.0,
-      height: 90.0,
+      width: 180.0,
+      height: 180.0,
       //height and width for menu button
 
       child: FlatButton(
@@ -577,8 +594,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
   Widget fabsinglemenuSimpanLokasi(IconData icon, Function onPressFunction) {
     return SizedBox(
-      width: 90.0,
-      height: 90.0,
+      width: 180.0,
+      height: 180.0,
       //height and width for menu button
 
       child: FlatButton(
@@ -852,37 +869,173 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
     }).toList();
   }
 
-  // //var for get the notification from tables
-  // getNotification() async {
-  //   print('akui di panggil : getnotificaiton');
+  void showDefaultSnackbar(BuildContext context) {
+    print('000snackbar');
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Hello from the default snackbar'),
+        action: SnackBarAction(
+          label: 'Click Me',
+          onPressed: () {},
+        ),
+      ),
+    );
+  }
 
-  //   var dbClient = await databaseHelper.db;
-  //   List<Map> listNotifikasi = await dbClient.rawQuery(
-  //       "SELECT * FROM notifikasi where status ='unread' order by tanggal desc, jam desc");
-  //   for (var i = 0; i < listNotifikasi.length; i++) {
-  //     myListNotif
-  //         .add(listNotifikasi[i]['title'] + " : " + listNotifikasi[i]['body']);
-  //   }
-  //   var gemessage = await dbClient
-  //       .rawQuery('select * from notifikasi order by tanggal desc, jam desc');
-  //   print(' "gemessage =>",$gemessage');
-  //   return myListNotif;
+  // void _showBasicsFlash({
+  //   Duration? duration,
+  //   flashStyle = FlashStyle.floating,
+  // }) {
+  //   showFlash(
+  //     context: context,
+  //     duration: duration,
+  //     builder: (context, controller) {
+  //       return Flash(
+  //         controller: controller,
+  //         style: flashStyle,
+  //         boxShadows: kElevationToShadow[4],
+  //         horizontalDismissDirection: HorizontalDismissDirection.horizontal,
+  //         child: FlashBar(
+  //           message: Text('This is a basic flash'),
+  //         ),
+  //       );
+  //     },
+  //   );
   // }
 
-  // //var for get the list notification from the list
-  // List<Widget> getMyList() {
-  //   getNotification();
-  //   var totalPesan = myListNotif.length;
-  //   print("'total list di getmylist => ', $totalPesan");
+  void _showBottomFlash(
+      {bool persistent = true, EdgeInsets margin = EdgeInsets.zero}) {
+    showFlash(
+      context: context,
+      persistent: persistent,
+      builder: (_, controller) {
+        return Flash(
+          controller: controller,
+          margin: margin,
+          borderRadius: BorderRadius.circular(8.0),
+          borderColor: Colors.grey,
+          boxShadows: kElevationToShadow[8],
+          backgroundGradient: RadialGradient(
+            // colors: [Colors.amber, Colors.black87],
+            colors: [Colors.blue[100], Colors.blue[200]],
+            center: Alignment.topLeft,
+            radius: 2,
+          ),
+          onTap: () => controller.dismiss(),
+          forwardAnimationCurve: Curves.easeInCirc,
+          reverseAnimationCurve: Curves.bounceIn,
+          child: DefaultTextStyle(
+            style: TextStyle(
+                color: Colors.white, fontSize: 14, fontFamily: "Poppins"),
+            child: FlashBar(
+              title: Text('Project Task'),
+              message: Text('Ahmad Arifin Mengundang Anda'),
+              leftBarIndicatorColor: Colors.grey,
+              icon: Icon(Icons.notifications),
+              primaryAction: FlatButton(
+                onPressed: () => controller.dismiss(),
+                child: Text(
+                  'DISMISS',
+                  style: TextStyle(
+                      color: Colors.white70,
+                      fontSize: 12,
+                      fontFamily: "Poppins"),
+                ),
+              ),
+              actions: <Widget>[
+                FlatButton(
+                    onPressed: () => controller
+                        .dismiss('anda akan di arahkan ke page notifikasi'),
+                    child: Text('YES')),
+                FlatButton(
+                    onPressed: () =>
+                        controller.dismiss('Silahkan cek notifikasi anda'),
+                    child: Text('NO')),
+              ],
+            ),
+          ),
+        );
+      },
+    ).then((_) {
+      if (_ != null) {
+        _showMessage(_.toString());
+      }
+    });
+  }
 
-  //   return myListNotif.map((x) {
-  //     return Padding(
-  //       padding: EdgeInsets.all(10.0),
-  //       child: Column(children: <Widget>[
-  //         Icon(Icons.notifications, color: Colors.grey),
-  //         Text(x)
-  //       ]),
-  //     );
-  //   }).toList();
-  // }
+  void _showMessage(String message) {
+    if (!mounted) return;
+    showFlash(
+        context: context,
+        duration: Duration(seconds: 3),
+        builder: (_, controller) {
+          return Flash(
+            controller: controller,
+            position: FlashPosition.top,
+            style: FlashStyle.grounded,
+            child: FlashBar(
+              icon: Icon(
+                Icons.face,
+                size: 36.0,
+                color: Colors.black,
+              ),
+              message: Text(message),
+            ),
+          );
+        });
+  }
+
+  void showNotifUper() {
+    showSimpleNotification(
+      Text('isi pesan'),
+      background: Colors.grey,
+    );
+  }
 }
+
+// void showInfoFlushbar(BuildContext context) {
+//   Flushbar(
+//     title: 'This action is prohibited',
+//     message: 'Lorem ipsum dolor sit amet',
+//     icon: Icon(
+//       Icons.info_outline,
+//       size: 28,
+//       color: Colors.blue.shade300,
+//     ),
+//     leftBarIndicatorColor: Colors.blue.shade300,
+//     duration: Duration(seconds: 3),
+//   )..show(context);
+// }
+// //var for get the notification from tables
+// getNotification() async {
+//   print('akui di panggil : getnotificaiton');
+
+//   var dbClient = await databaseHelper.db;
+//   List<Map> listNotifikasi = await dbClient.rawQuery(
+//       "SELECT * FROM notifikasi where status ='unread' order by tanggal desc, jam desc");
+//   for (var i = 0; i < listNotifikasi.length; i++) {
+//     myListNotif
+//         .add(listNotifikasi[i]['title'] + " : " + listNotifikasi[i]['body']);
+//   }
+//   var gemessage = await dbClient
+//       .rawQuery('select * from notifikasi order by tanggal desc, jam desc');
+//   print(' "gemessage =>",$gemessage');
+//   return myListNotif;
+// }
+
+// //var for get the list notification from the list
+// List<Widget> getMyList() {
+//   getNotification();
+//   var totalPesan = myListNotif.length;
+//   print("'total list di getmylist => ', $totalPesan");
+
+//   return myListNotif.map((x) {
+//     return Padding(
+//       padding: EdgeInsets.all(10.0),
+//       child: Column(children: <Widget>[
+//         Icon(Icons.notifications, color: Colors.grey),
+//         Text(x)
+//       ]),
+//     );
+//   }).toList();
+// }

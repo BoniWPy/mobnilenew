@@ -264,7 +264,7 @@ class _ScanState extends State<ScanScreenIn> {
           pr.hide();
         });
         Future.delayed(Duration(seconds: 1)).then((onValue) {
-          alert(context);
+          // alert(context);
         });
       });
       print('sambil loading BACKEND');
@@ -338,15 +338,15 @@ class _ScanState extends State<ScanScreenIn> {
     }
   }
 
-  Future alert(context) async {
-    AlertDialog alertDialog = new AlertDialog(
-      content: new Container(
-        height: 300.0,
-        child: new Center(
-          child: Image.asset("assets/img/error_location.png"),
-        ),
-      ),
-    );
-    showDialog(context: context, child: alertDialog);
-  }
+  // Future alert(context) async {
+  //   AlertDialog alertDialog = new AlertDialog(
+  //     content: new Container(
+  //       height: 300.0,
+  //       child: new Center(
+  //         child: Image.asset("assets/img/error_location.png"),
+  //       ),
+  //     ),
+  //   );
+  //   showDialog(context: context, child: alertDialog);
+  // }
 }

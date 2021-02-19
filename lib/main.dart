@@ -16,6 +16,9 @@ import 'package:shimmer/shimmer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
 import 'package:new_payrightsystem/ui/Home/webviewMain.dart';
+
+// import 'package:overlay_support/overlay_support.dart';
+
 // import 'package:device_info/device_info.dart';
 // import 'package:trust_fall/trust_fall.dart';
 
@@ -23,12 +26,14 @@ import 'data/DatabaseHelper.dart';
 import 'data/model/User.dart';
 
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:overlay_support/overlay_support.dart';
 //import 'package:trust_fall/trust_fall.dart';
 
 void main() async {
   // Instantiate Notification service
   // NotificationService();
-
+  // kNotificationSlideDuration = const Duration(milliseconds: 5000);
+  // kNotificationDuration = const Duration(milliseconds: 3500);
   runApp(new MyApp());
 }
 // void main() =>

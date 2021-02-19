@@ -339,6 +339,6 @@ class _ScanState extends State<ScanScreenOut> {
         ),
       ),
     );
-    showDialog(context: context, child: alertDialog);
+    // showDialog(context: context, child: alertDialog);
   }
 }
