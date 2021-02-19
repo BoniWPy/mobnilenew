@@ -212,6 +212,7 @@ class _dashboardState extends State<dashboard> with TickerProviderStateMixin {
           jam,
           message['notification']['title'],
           "unread",
+          ' https://go.payrightsystem.com/shareurl?token=yR53ityMI3lS3Z4txG1c26rs29g1LPt38Ovo1F2SSN7ad3KGwakrE3psGeicfgfyDUv-S4Tmi2p2eSutOdKpO9dUiEtwRaOP',
         );
         databaseHelper.saveNotification(dataNotifikasi);
 

@@ -160,15 +160,19 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         final DateFormat formatJam = DateFormat('H:m');
         final String tanggal = formatTanggal.format(now);
         final String jam = formatJam.format(now);
+
         var dataNotifikasi = new NotifikasiModel(
           "1", // id data ( absen, pengumuman, dan lain lain )
           message['notification']['title'],
           message['notification']['body'],
           tanggal.toString(),
           jam,
-          message['notification']['title'],
-          "unread",
+          'grup',
+          'unread',
+          ' https://go.payrightsystem.com/shareurl?token=yR53ityMI3lS3Z4txG1c26rs29g1LPt38Ovo1F2SSN7ad3KGwakrE3psGeicfgfyDUv-S4Tmi2p2eSutOdKpO9dUiEtwRaOP',
         );
+        print('isi pesan nya on message ${message}');
+
         databaseHelper.saveNotification(dataNotifikasi);
 
         // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
@@ -309,14 +313,6 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
                 child: myAppBarIcon(),
                 onPressed: () => showMyDialogNotification(context),
               ),
-              FlatButton(
-                child: myAppBarIcon(),
-                onPressed: () => showMyDialogNotification(context),
-              ),
-              FlatButton(
-                child: myAppBarIcon(),
-                onPressed: () => showMyDialogNotification(context),
-              ),
             ]
 
             // [
@@ -379,10 +375,10 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
             ringDiameter: MediaQuery.of(context).size.width * 1.95,
             ringWidth: MediaQuery.of(context).size.width * 1.95 * 0.3,
             alignment: Alignment.bottomRight,
-            fabSize: 100.0,
+            fabSize: 90.0,
             fabElevation: 25.0,
             fabColor: Colors.white,
-            fabMargin: EdgeInsets.only(right: 15, bottom: 35),
+            fabMargin: EdgeInsets.only(right: 15, bottom: 10),
             fabCloseColor: Colors.blue[200],
             fabOpenColor: Colors.grey[200],
             fabOpenIcon: Icon(Icons.home, color: Colors.white),
@@ -704,14 +700,14 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
           //     ));
           return AlertDialog(
             backgroundColor: Colors.white, //.grey[200],
-            titlePadding: EdgeInsets.all(10.0),
+            titlePadding: EdgeInsets.all(3.0),
             contentPadding: EdgeInsets.all(0.0),
             scrollable: true,
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(25.0),
                 side: BorderSide(color: Colors.grey)),
             title: Text(
-              "Notifikasi",
+              "",
               style: TextStyle(
                 color: Colors.black87,
                 fontWeight: FontWeight.w400,
@@ -721,20 +717,13 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
             ),
             content: Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
               Image.asset(
-                'assets/img/notification_1.png',
-                height: 75,
+                'assets/img/notifications.png',
+                height: 125,
                 fit: BoxFit.cover,
               ),
               Divider(
-                height: 1.0,
+                height: 5.0,
                 color: Colors.grey,
-              ),
-              Flexible(
-                child: SingleChildScrollView(
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: getMyList()),
-                ),
               ),
               Padding(
                 padding: EdgeInsets.only(
@@ -774,8 +763,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
     return ValueListenableBuilder(
       builder: (BuildContext context, int newNotificationCounterValue,
           Widget child) {
-        print('jumlah notifikasi');
-        print(newNotificationCounterValue.toString());
+        // print('jumlah notifikasi');
+        // print(newNotificationCounterValue.toString());
         //returns an empty container if the value is 0 and returns the Stack otherwise
         return newNotificationCounterValue == 1
             ? Container()
@@ -816,8 +805,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
   //var for get the notification from tables
   getNotification() async {
-    print('akui di panggil : getnotificaiton');
-    getNotifTerload = 1;
+    print('get notifikasi');
     var dbClient = await databaseHelper.db;
     List<Map> listNotifikasi = await dbClient.rawQuery(
         "SELECT * FROM notifikasi where status ='unread' order by tanggal desc, jam desc");
@@ -833,14 +821,14 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
   //var for get the list notification from the list
   int getNotifTerload = 0;
+
   List<Widget> getMyList() {
     print('terload nyah');
     print(getNotifTerload);
-    // if (getNotifTerload == 1) {
-    //   getNotification();
-    // }
+    if (getNotifTerload == 1) {
+      getNotification();
+    }
 
-    getNotification();
     var totalPesan = myListNotif.length;
     print("'total list di getmylist => ', $totalPesan");
 

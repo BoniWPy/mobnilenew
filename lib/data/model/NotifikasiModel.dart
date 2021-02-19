@@ -7,8 +7,10 @@ class NotifikasiModel {
   String _jam;
   String _jenis_notifikasi;
   String _status;
+  String _click_action;
+
   NotifikasiModel(this._id_content, this._title, this._body, this._tanggal,
-      this._jam, this._jenis_notifikasi, this._status);
+      this._jam, this._jenis_notifikasi, this._status, this._click_action);
   NotifikasiModel.map(dynamic obj) {
     this._id_content = obj["id_content"];
     this._title = obj["title"];
@@ -17,6 +19,7 @@ class NotifikasiModel {
     this._jam = obj["jam"];
     this._jenis_notifikasi = obj["jenis_notifikasi"];
     this._status = obj["status"];
+    this._click_action = obj['clickaction'];
   }
 
   Map<String, dynamic> toMap() {
@@ -29,6 +32,7 @@ class NotifikasiModel {
     map["jam"] = this._jam;
     map["jenis_notifikasi"] = this._jenis_notifikasi;
     map["status"] = this._status;
+    map["click_action"] = this._click_action;
     return map;
   }
   // void setNotifikasiModelId(int id) {

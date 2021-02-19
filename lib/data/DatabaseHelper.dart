@@ -39,7 +39,7 @@ class DatabaseHelper {
     //     print("database created");
 
     await db.execute(
-        "CREATE TABLE notifikasi (id INTEGER PRIMARY KEY,id_content text, title text, body text,tanggal text,jam text,jenis_notifikasi text,status text )");
+        "CREATE TABLE notifikasi (id INTEGER PRIMARY KEY,id_content text, title text, body text,tanggal text,jam text,jenis_notifikasi text,status text,  grup text, click_action text )");
   }
 
   Future<int> saveUser(User account) async {

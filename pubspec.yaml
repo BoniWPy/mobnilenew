@@ -172,6 +172,8 @@ flutter:
       - assets/img/absenmasuk.png
       - assets/img/absenkeluar.png
       - assets/img/simpanlokasi.png
+      - assets/img/bg_notification_header.png
+      - assets/img/notifications.png
 
       - assets/animations/track.gif
 
