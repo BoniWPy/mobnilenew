@@ -526,7 +526,7 @@ class _LoginPageState extends State<LoginPage>
               new MaterialPageRoute(
                   builder: (context) =>
                       // dashboard(_visibleCheckIn, _visibleCheckOut)
-                      InAppWebViewExampleScreen()));
+                      InAppWebViewExampleScreen("")));
         });
       } else {
         print('gagal login');

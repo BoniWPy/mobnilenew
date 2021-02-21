@@ -204,17 +204,19 @@ class _dashboardState extends State<dashboard> with TickerProviderStateMixin {
         final DateFormat formatJam = DateFormat('H:m');
         final String tanggal = formatTanggal.format(now);
         final String jam = formatJam.format(now);
-        var dataNotifikasi = new NotifikasiModel(
-          "1", // id data ( absen, pengumuman, dan lain lain )
-          message['notification']['title'],
-          message['notification']['body'],
-          tanggal.toString(),
-          jam,
-          message['notification']['title'],
-          "unread",
-          ' https://go.payrightsystem.com/shareurl?token=yR53ityMI3lS3Z4txG1c26rs29g1LPt38Ovo1F2SSN7ad3KGwakrE3psGeicfgfyDUv-S4Tmi2p2eSutOdKpO9dUiEtwRaOP',
-        );
-        databaseHelper.saveNotification(dataNotifikasi);
+        // var dataNotifikasi = new NotifikasiModel(
+        //   "1", // id data ( absen, pengumuman, dan lain lain )
+        //   message['notification']['title'],
+        //   message['notification']['body'],
+        //   tanggal.toString(),
+        //   jam,
+        //   message['notification']['title'],
+        //   "grup",
+        //   "unread",
+        //   "private",
+        //   ' https://go.payrightsystem.com/shareurl?token=yR53ityMI3lS3Z4txG1c26rs29g1LPt38Ovo1F2SSN7ad3KGwakrE3psGeicfgfyDUv-S4Tmi2p2eSutOdKpO9dUiEtwRaOP',
+        // );
+        // databaseHelper.saveNotification(dataNotifikasi);
 
         // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
         displayNotification(message);
@@ -1129,7 +1131,8 @@ class _dashboardState extends State<dashboard> with TickerProviderStateMixin {
                                       ]),
                                 ), onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (_) => InAppWebViewExampleScreen()));
+                                  builder: (_) =>
+                                      InAppWebViewExampleScreen("")));
                             }),
 
                             // //           //end chart

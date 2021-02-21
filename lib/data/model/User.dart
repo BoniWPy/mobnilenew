@@ -7,7 +7,6 @@ class User {
   User.map(dynamic obj) {
     this._mobile = obj["mobile"];
     this._otp = obj["otp"];
-    
   }
 
   Map<String, dynamic> toMap() {
@@ -16,6 +15,7 @@ class User {
     map["otp"] = this._otp;
     return map;
   }
+
   void setUserId(int id) {
     this.id = id;
   }

@@ -111,7 +111,7 @@ class SplashState extends State<Splash> {
       Navigator.of(context).pushReplacement(new MaterialPageRoute(
           builder: (context) =>
               // new dashboard(_visibleCheckIn, _visibleCheckOut)
-              new InAppWebViewExampleScreen()));
+              new InAppWebViewExampleScreen("")));
     } else {
       if (_seen) {
         await prefs.setBool('isLogin', true);
