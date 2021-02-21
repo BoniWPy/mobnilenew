@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     
     <application
-        android:name="io.flutter.app.FlutterApplication"
+        android:name=".Application"
         android:label="Absensi"
         android:icon="@drawable/logo">
         <activity
@@ -51,5 +51,16 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/logo" />
+
+         <!-- <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/primary" /> -->
+
+         <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="Payrightsystem" />
     </application>
 </manifest>

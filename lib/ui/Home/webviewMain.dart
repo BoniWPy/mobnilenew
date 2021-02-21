@@ -26,7 +26,7 @@ import 'package:progress_dialog/progress_dialog.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-// import 'package:fluttertoast/fluttertoast.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
 import 'package:new_payrightsystem/ui/Home/dashboardzakir.dart';
@@ -37,7 +37,7 @@ import 'package:new_payrightsystem/ui/checkinout/checkIn.dart';
 import 'package:new_payrightsystem/ui/checkinout/checkOut.dart';
 
 import 'package:flash/flash.dart';
-import 'package:overlay_support/overlay_support.dart';
+// import 'package:overlay_support/overlay_support.dart';
 
 // import 'package:another_flushbar/flushbar.dart';
 // import 'package:another_flushbar/flushbar_helper.dart';
@@ -196,27 +196,27 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         notificationCounterValueNotifer
             .notifyListeners(); // notify listeners here so ValueListenableBuilder will build the widget.
 
-        // showDefaultSnackbar(context);
+        showDefaultSnackbar(context);
 
-        // Alert(
-        //   context: context,
-        //   style: alertStyle,
-        //   title: message['notification']['body'],
-        //   image: Image.asset("assets/img/new_notification.png"),
-        //   buttons: [
-        //     DialogButton(
-        //       child: Text(
-        //         message['notification']['title'],
-        //         style: TextStyle(
-        //             color: Colors.white, fontSize: 14, fontFamily: "Poppins"),
-        //       ),
-        //       onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-        //       // color: Color.fromRGBO(0, 179, 134, 1.0),
-        //       color: Colors.blue[300],
-        //       radius: BorderRadius.circular(20.0),
-        //     ),
-        //   ],
-        // ).show();
+        Alert(
+          context: context,
+          style: alertStyle,
+          title: message['notification']['body'],
+          image: Image.asset("assets/img/new_notification.png"),
+          buttons: [
+            DialogButton(
+              child: Text(
+                message['notification']['title'],
+                style: TextStyle(
+                    color: Colors.white, fontSize: 14, fontFamily: "Poppins"),
+              ),
+              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+              // color: Color.fromRGBO(0, 179, 134, 1.0),
+              color: Colors.blue[300],
+              radius: BorderRadius.circular(20.0),
+            ),
+          ],
+        ).show();
         // _showItemDialog(message);
       },
       // ignore: missing_return
@@ -263,15 +263,15 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
     if (payload != null) {
       debugPrint('notification payload: ' + payload);
     }
-    // await Fluttertoast.showToast(
-    //   msg: "Notification Clicked",
-    //   toastLength: Toast.LENGTH_SHORT,
-    //   gravity: ToastGravity.BOTTOM,
-    //   timeInSecForIos: 1,
-    //   backgroundColor: Colors.black54,
-    //   textColor: Colors.white,
-    //   fontSize: 16.0,
-    // );
+    await Fluttertoast.showToast(
+      msg: "Notification Clicked",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIos: 1,
+      backgroundColor: Colors.black54,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
     //firebase end
 
     contextMenu = ContextMenu(
@@ -388,13 +388,13 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         floatingActionButton: FabCircularMenu(
             // ringDiameter: MediaQuery.of(context).size.width * 0.75,
             // ringWidth: MediaQuery.of(context).size.width * 0.75 * 0.3,
-            ringDiameter: MediaQuery.of(context).size.width * 1.95,
-            ringWidth: MediaQuery.of(context).size.width * 1.95 * 0.3,
+            ringDiameter: MediaQuery.of(context).size.width * 1.80,
+            ringWidth: MediaQuery.of(context).size.width * 1.60 * 0.3,
             alignment: Alignment.bottomRight,
-            fabSize: 180.0,
-            fabElevation: 25.0,
+            fabSize: 80.0,
+            fabElevation: 20.0,
             fabColor: Colors.white,
-            fabMargin: EdgeInsets.only(right: 15, bottom: 10),
+            fabMargin: EdgeInsets.only(right: 5, bottom: 5),
             fabCloseColor: Colors.blue[200],
             fabOpenColor: Colors.grey[200],
             fabOpenIcon: Icon(Icons.home, color: Colors.white),
@@ -557,8 +557,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
   Widget fabsinglemenuAbsenMasuk(IconData icon, Function onPressFunction) {
     return SizedBox(
-        width: 180.0,
-        height: 180.0,
+        width: 125.0,
+        height: 125.0,
         //height and width for menu button
 
         child: FlatButton(
@@ -573,8 +573,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
   Widget fabsinglemenuAbsenKeluar(IconData icon, Function onPressFunction) {
     return SizedBox(
-      width: 180.0,
-      height: 180.0,
+      width: 125.0,
+      height: 125.0,
       //height and width for menu button
 
       child: FlatButton(
@@ -594,8 +594,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
   Widget fabsinglemenuSimpanLokasi(IconData icon, Function onPressFunction) {
     return SizedBox(
-      width: 180.0,
-      height: 180.0,
+      width: 125.0,
+      height: 125.0,
       //height and width for menu button
 
       child: FlatButton(
@@ -650,7 +650,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
   var alertStyle = AlertStyle(
     animationType: AnimationType.fromTop,
     isCloseButton: true,
-    isOverlayTapDismiss: false,
+    isOverlayTapDismiss: true,
     descStyle: TextStyle(fontWeight: FontWeight.bold),
     animationDuration: Duration(milliseconds: 300),
     alertBorder: RoundedRectangleBorder(
@@ -848,9 +848,9 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
   List<Widget> getMyList() {
     print('terload nyah');
     print(getNotifTerload);
-    if (getNotifTerload == 0) {
-      getNotification();
-    }
+    // if (getNotifTerload == 0) {
+    //   getNotification();
+    // }
 
     var totalPesan = myListNotif.length;
     print("'total list di getmylist => ', $totalPesan");
@@ -904,7 +904,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
   // }
 
   void _showBottomFlash(
-      {bool persistent = true, EdgeInsets margin = EdgeInsets.zero}) {
+      {bool persistent = false, EdgeInsets margin = EdgeInsets.zero}) {
+    print('masuk pa eko');
     showFlash(
       context: context,
       persistent: persistent,
@@ -935,7 +936,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
               primaryAction: FlatButton(
                 onPressed: () => controller.dismiss(),
                 child: Text(
-                  'DISMISS',
+                  'Lihat Notifikasi',
                   style: TextStyle(
                       color: Colors.white70,
                       fontSize: 12,
@@ -945,12 +946,12 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
               actions: <Widget>[
                 FlatButton(
                     onPressed: () => controller
-                        .dismiss('anda akan di arahkan ke page notifikasi'),
-                    child: Text('YES')),
+                        .dismiss('Anda akan di arahkan ke page notifikasi'),
+                    child: Text('Lihat')),
                 FlatButton(
-                    onPressed: () =>
-                        controller.dismiss('Silahkan cek notifikasi anda'),
-                    child: Text('NO')),
+                    onPressed: () => controller
+                        .dismiss('Anda Bisa Melihat History Notifikasi Nanti'),
+                    child: Text('Abaikan')),
               ],
             ),
           ),
@@ -959,6 +960,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
     ).then((_) {
       if (_ != null) {
         _showMessage(_.toString());
+        print('masuk ke error');
       }
     });
   }
@@ -985,12 +987,12 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         });
   }
 
-  void showNotifUper() {
-    showSimpleNotification(
-      Text('isi pesan'),
-      background: Colors.grey,
-    );
-  }
+  // void showNotifUper() {
+  //   showSimpleNotification(
+  //     Text('isi pesan'),
+  //     background: Colors.grey,
+  //   );
+  // }
 }
 
 // void showInfoFlushbar(BuildContext context) {

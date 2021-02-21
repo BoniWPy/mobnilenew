@@ -9,7 +9,7 @@ class NotifikasiModel {
   String _status;
   String _click_action;
 
-  Final NotifikasiModel(this._id_content, this._title, this._body, this._tanggal,
+  NotifikasiModel(this._id_content, this._title, this._body, this._tanggal,
       this._jam, this._jenis_notifikasi, this._status, this._click_action);
   NotifikasiModel.map(dynamic obj) {
     this._id_content = obj["id_content"];
