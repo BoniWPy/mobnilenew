@@ -79,7 +79,7 @@ class _notificationPageState extends State<notificationPage> {
       child: new ClipPath(
         clipper: new DialogonalClipper(),
         child: new Image.asset(
-          'assets/img/notification_1.png',
+          'assets/img/notifications.png',
           fit: BoxFit.cover,
           height: _imageHeight,
           colorBlendMode: BlendMode.srcOver,

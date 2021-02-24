@@ -15,7 +15,7 @@
 // class FlashHelper {
 //   static Completer<BuildContext> _buildCompleter = Completer<BuildContext>();
 //   static Queue<_MessageItem> _messageQueue = Queue<_MessageItem>();
-//   static Completer? _previousCompleter;
+//   static Completer _previousCompleter;
 
 //   static void init(BuildContext context) {
 //     if (_buildCompleter.isCompleted == false) {
@@ -84,14 +84,14 @@
 //     return theme.dialogTheme.backgroundColor ?? theme.dialogBackgroundColor;
 //   }
 
-//   static TextStyle _titleStyle(BuildContext context, [Color? color]) {
+//   static TextStyle _titleStyle(BuildContext context, [Color color]) {
 //     var theme = Theme.of(context);
 //     return (theme.dialogTheme.titleTextStyle ?? theme.textTheme.headline6)
 //             ?.copyWith(color: color) ??
 //         TextStyle(fontSize: 21.0, fontWeight: FontWeight.w700);
 //   }
 
-//   static TextStyle _contentStyle(BuildContext context, [Color? color]) {
+//   static TextStyle _contentStyle(BuildContext context, [Color color]) {
 //     var theme = Theme.of(context);
 //     return (theme.dialogTheme.contentTextStyle ?? theme.textTheme.bodyText2)
 //             ?.copyWith(color: color) ??
@@ -100,8 +100,8 @@
 
 //   static Future<T> infoBar<T>(
 //     BuildContext context, {
-//     String? title,
-//     required String message,
+//     String title,
+//     // required String message,
 //     Duration duration = const Duration(seconds: 3),
 //   }) {
 //     return showFlash<T>(
@@ -127,7 +127,7 @@
 
 //   static Future<T> successBar<T>(
 //     BuildContext context, {
-//     String? title,
+//     String title,
 //     required String message,
 //     Duration duration = const Duration(seconds: 3),
 //   }) {

@@ -6,7 +6,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:new_payrightsystem/data/DatabaseHelper.dart';
 import 'package:new_payrightsystem/data/model/NotifikasiModel.dart';
 import 'package:new_payrightsystem/ui/checkinout/checkIn.dart';
-import 'package:new_payrightsystem/ui/Home/sampleList.dart';
+
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:badges/badges.dart';
 import 'package:new_payrightsystem/utils/notification/notification_page.dart';
@@ -25,7 +25,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:new_payrightsystem/utils/api/api.dart';
 import 'package:intl/intl.dart';
-import 'package:new_payrightsystem/ui/Home/notificationList.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:new_payrightsystem/ui/checkinout/webview/employeeDashboard.dart';

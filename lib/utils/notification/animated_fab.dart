@@ -46,9 +46,9 @@ class _AnimatedFabState extends State<AnimatedFab>
             alignment: Alignment.center,
             children: <Widget>[
               _buildExpandedBackground(),
-              _buildOption(Icons.check_circle, 0.0),
+              _buildOption(Icons.person_outline, 0.0),
               // _buildOption(Icons.flash_on, -math.pi / 3),
-              _buildOption(Icons.error_outline, math.pi),
+              _buildOption(Icons.group, math.pi),
               _buildFabCore(),
             ],
           );
