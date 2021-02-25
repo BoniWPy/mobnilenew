@@ -7,6 +7,10 @@ import 'package:new_payrightsystem/utils/notification/task_row.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+import 'package:new_payrightsystem/data/model/NotifikasiModel.dart';
+import 'package:new_payrightsystem/data/DatabaseHelper.dart';
+import 'package:new_payrightsystem/utils/shared_preferences.dart';
+
 class notificationPage extends StatefulWidget {
   notificationPage({Key key}) : super(key: key);
 
@@ -29,6 +33,9 @@ class _notificationPageState extends State<notificationPage> {
   // print(DateFormat.yMMMMd().format(now)); // print long date
   // print(DateFormat.yMd().format(now)); // print short date
   // print(DateFormat.jms().format(now)); // print time v
+
+  var userinfo, company_name, name;
+  var databaseHelper = new DatabaseHelper();
 
   @override
   void initState() {
@@ -116,42 +123,53 @@ class _notificationPageState extends State<notificationPage> {
 
   Widget _buildProfileRow() {
     return new Padding(
-      padding: new EdgeInsets.only(left: 16.0, top: _imageHeight / 2.5),
-      child: new Row(
-        children: <Widget>[
-          new CircleAvatar(
-            minRadius: 28.0,
-            maxRadius: 28.0,
-            backgroundImage: new AssetImage('assets/img/notification_2.png'),
-          ),
-          new Padding(
-            padding: const EdgeInsets.only(left: 16.0),
-            child: new Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                new Text(
-                  'Imam Mutaqien',
-                  style: new TextStyle(
-                      fontSize: 26.0,
-                      color: Colors.black87,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w400),
-                ),
-                new Text(
-                  'PT. Tabulasi Akurat Digifindo',
-                  style: new TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.black87,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w300),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
+        padding: new EdgeInsets.only(left: 16.0, top: _imageHeight / 2.5),
+        child: FutureBuilder(
+          future: postRequest(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              print(company_name);
+              print('nama company');
+              return new Row(
+                children: <Widget>[
+                  new CircleAvatar(
+                    minRadius: 28.0,
+                    maxRadius: 28.0,
+                    backgroundImage:
+                        new AssetImage('assets/img/notification_2.png'),
+                  ),
+                  new Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: new Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        new Text(
+                          name ? name : '',
+                          style: new TextStyle(
+                              fontSize: 26.0,
+                              color: Colors.black87,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w400),
+                        ),
+                        new Text(
+                          company_name ? company_name : '',
+                          style: new TextStyle(
+                              fontSize: 14.0,
+                              color: Colors.black87,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w300),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            } else {
+              return Center(child: CircularProgressIndicator());
+            }
+          },
+        ));
   }
 
   Widget _buildBottomPart() {
@@ -215,5 +233,14 @@ class _notificationPageState extends State<notificationPage> {
         color: Colors.grey[300],
       ),
     );
+  }
+
+  Future<String> postRequest() async {
+    var userinfo = await Data.getData();
+    company_name = userinfo['company_name'];
+    name = userinfo['name'];
+    print('postrekuest beraksi');
+    var dbClient = await databaseHelper.db;
+    return company_name;
   }
 }

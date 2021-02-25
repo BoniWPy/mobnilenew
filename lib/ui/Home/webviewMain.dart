@@ -115,6 +115,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
   bool config_ess = true;
   bool config_scan = true;
 
+  var color = const Color(0xFF2196F3);
+
   final items = [
     SSBottomNavItem(text: 'Home', iconData: Icons.home),
     SSBottomNavItem(text: 'Absen Masuk', iconData: Icons.login),
@@ -487,35 +489,52 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
             ringWidth:
                 MediaQuery.of(context).size.width * 1.60 * 0.3, //lebar ring
             alignment: Alignment.bottomLeft,
-            fabSize: 80.0,
-            fabElevation: 10.0,
-            fabColor: Colors.white,
+            fabSize: 80.0, //ukuran bulatan float button nya
+            fabElevation: 10.0, //ketinggian dari button float *tdk berguna
+            fabColor: Colors.black, //warna float button *tdk berguna
             fabMargin: EdgeInsets.only(
-                left: 15,
+                left: 10,
                 right: 5,
-                bottom: 5), //jarak bulartan kecil ke kanan kiri
+                bottom: 10), //jarak bulartan kecil ke kanan kiri
             fabCloseColor: Colors.white, //warna pada saat di tutup
             fabOpenColor: Colors.white54, //warna pada saat di buka
             fabOpenIcon: Icon(
-              Icons.menu,
-              color: Colors.blue,
-              size: 32,
+              Icons.fingerprint_outlined,
+              color: Colors.grey,
+              size: 60,
             ),
+            //           fabOpenIcon:  ImageIcon(
+            //   AssetImage('assets/img/fingerprint.png'),
+            //   size: 12,
+            // ),
+            //     fabOpenIcon: Container(
+            //   child: Image(
+            //     image: AssetImage(
+            //      ' assets/img/fingerprint.png',
+            //     ),
+            //     fit: BoxFit.cover,
+            //   ),
+            //   height: 100,
+            //   width: 100,
+            // ),
+
             fabCloseIcon:
                 Icon(Icons.close, color: Colors.white), //icon untuk menutup
             // ringColor: Colors.blue[100],
-            ringColor: Colors.transparent,
+            ringColor: Colors.grey[100],
+            animationCurve: Curves.easeInOut,
+            // onDisplayChange: print('print'),
             children: <Widget>[
-              fabsinglemenuAbsenMasuk(Icons.menu, () {
+              fabsinglemenuAbsenMasuk(() {
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (_) => ScanScreenIn()));
               }),
-              fabsinglemenuSimpanLokasi(Icons.alarm, () {
+              fabsinglemenuSimpanLokasi(() {
                 //set action for this menu
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (_) => SimpanLokasi()));
               }),
-              fabsinglemenuAbsenKeluar(Icons.alarm, () {
+              fabsinglemenuAbsenKeluar(() {
                 //set action for this menu
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (_) => ScanScreenOut()));
@@ -652,14 +671,14 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         ])));
   }
 
-  Widget fabsinglemenuAbsenMasuk(IconData icon, Function onPressFunction) {
+  Widget fabsinglemenuAbsenMasuk(Function onPressFunction) {
     return SizedBox(
-        width: 135.0,
-        height: 135.0,
+        width: 120,
+        height: 120,
         //height and width for menu button
 
         child: FlatButton(
-          color: Colors.white,
+          color: color,
           child: Image.asset('assets/img/absenmasuk.png'),
           onPressed: onPressFunction,
           shape: RoundedRectangleBorder(
@@ -668,14 +687,14 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         ));
   }
 
-  Widget fabsinglemenuAbsenKeluar(IconData icon, Function onPressFunction) {
+  Widget fabsinglemenuAbsenKeluar(Function onPressFunction) {
     return SizedBox(
-      width: 135.0,
-      height: 135.0,
+      width: 120,
+      height: 120,
       //height and width for menu button
 
       child: FlatButton(
-        color: Colors.white,
+        color: color,
         child: Image.asset('assets/img/absenkeluar.png'),
         // child: Image.network(
         //   absen_keluar,
@@ -689,14 +708,14 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
     );
   }
 
-  Widget fabsinglemenuSimpanLokasi(IconData icon, Function onPressFunction) {
+  Widget fabsinglemenuSimpanLokasi(Function onPressFunction) {
     return SizedBox(
-      width: 135.0,
-      height: 135.0,
+      width: 120,
+      height: 120,
       //height and width for menu button
 
       child: FlatButton(
-        color: Colors.white,
+        color: color,
         child: Image.asset('assets/img/simpanlokasi.png'),
         // child: Image.network(
         //   absen_keluar,

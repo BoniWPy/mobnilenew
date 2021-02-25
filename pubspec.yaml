@@ -181,12 +181,12 @@ flutter:
       - assets/img/simpanlokasi.png
       - assets/img/bg_notification_header.png
       - assets/img/notifications.png
-
       - assets/animations/track.gif
-
-
       - assets/error.html
       - assets/webview_error.png
+      - assets/simpanlokasigrey.png
+      - assets/absenkeluarbiru.png
+
 
 
 # The following section is specific to Flutter.
