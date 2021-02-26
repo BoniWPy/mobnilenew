@@ -224,25 +224,25 @@ class _dashboardState extends State<dashboard> with TickerProviderStateMixin {
         notificationCounterValueNotifer
             .notifyListeners(); // notify listeners here so ValueListenableBuilder will build the widget.
 
-        Alert(
-          context: context,
-          style: alertStyle,
-          title: message['notification']['body'],
-          image: Image.asset("assets/img/new_notification.png"),
-          buttons: [
-            DialogButton(
-              child: Text(
-                message['notification']['title'],
-                style: TextStyle(
-                    color: Colors.white, fontSize: 14, fontFamily: "Poppins"),
-              ),
-              onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-              // color: Color.fromRGBO(0, 179, 134, 1.0),
-              color: Colors.blue[300],
-              radius: BorderRadius.circular(20.0),
-            ),
-          ],
-        ).show();
+        // Alert(
+        //   context: context,
+        //   style: alertStyle,
+        //   title: message['notification']['body'],
+        //   image: Image.asset("assets/img/new_notification.png"),
+        //   buttons: [
+        //     DialogButton(
+        //       child: Text(
+        //         message['notification']['title'],
+        //         style: TextStyle(
+        //             color: Colors.white, fontSize: 14, fontFamily: "Poppins"),
+        //       ),
+        //       onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+        //       // color: Color.fromRGBO(0, 179, 134, 1.0),
+        //       color: Colors.blue[300],
+        //       radius: BorderRadius.circular(20.0),
+        //     ),
+        //   ],
+        // ).show();
         // _showItemDialog(message);
       },
       // ignore: missing_return

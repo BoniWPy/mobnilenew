@@ -215,14 +215,14 @@ class _notificationPageState extends State<notificationPage> {
             'Notifikasi',
             style: new TextStyle(fontSize: 34.0, fontFamily: "Poppins"),
           ),
-          new Text(
-            '$dateFormat.format(thisdate)',
-            style: new TextStyle(
-                color: Colors.grey,
-                fontWeight: FontWeight.w600,
-                fontFamily: "Poppins",
-                fontSize: 12.0),
-          ),
+          // new Text(
+          //   '$dateFormat.format(thisdate)',
+          //   style: new TextStyle(
+          //       color: Colors.grey,
+          //       fontWeight: FontWeight.w600,
+          //       fontFamily: "Poppins",
+          //       fontSize: 12.0),
+          // ),
         ],
       ),
     );

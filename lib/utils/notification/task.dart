@@ -15,6 +15,4 @@ class Task {
       this.color,
       this.comment,
       this.href});
-
-  // getNotification();
 }

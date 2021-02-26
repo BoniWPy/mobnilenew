@@ -32,6 +32,7 @@ import 'package:intl/intl.dart';
 import 'package:new_payrightsystem/ui/Home/dashboardzakir.dart';
 import 'package:new_payrightsystem/ui/Home/sampleList.dart';
 import 'package:new_payrightsystem/utils/notification/notification_page.dart';
+import 'package:flutter/src/foundation/change_notifier.dart';
 
 import 'package:new_payrightsystem/utils/api/api.dart';
 import 'package:new_payrightsystem/data/model/NotifikasiModel.dart';
@@ -148,6 +149,9 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
     super.initState();
     controller = AdvFabController();
 
+    //read db
+    queryDB();
+
     //firebase
     ValueListenableBuilder(
       builder: (BuildContext context, int newNotificationCounterValue,
@@ -184,9 +188,12 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         Map<String, dynamic> dataContent = extractdata;
         // print(dataContent['click_action']);
         // print('k');
-        var href_notification = dataContent['href_notification'];
-        var notification_group = dataContent['notification_group'];
+        var href = dataContent['href'];
+        var jenis_notifikasi = dataContent['jenis_notifikasi'];
+        var group_id = dataContent['notification_group'];
+        var group_name = dataContent['notification_group'];
         var click_action = dataContent['click_action'];
+        var param = dataContent['parameters'];
         // print('d');
         // print(message['data']['href_notification'].toString());
         // print('c');
@@ -198,20 +205,36 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         // print('1');
         // print(arrayData['data']['href_notification']);
 
-        var dataNotifikasi = new NotifikasiModel(
-          "1", // id data ( absen, pengumuman, dan lain lain )
+        // map["id_content"] = this._id_content;
+        // map["title"] = this._title;
+        // map["body"] = this._body;
+        // map["tanggal"] = this._tanggal;
+        // map["jam"] = this._jam;
+        // map["jenis_notifikasi"] = this._jenis_notifikasi;
+        // map["status"] = this._status;
+        // map["group_id"] = this._group_id;
+        // map["group_name"] = this._group_id;
+        // map["click_action"] = this._click_action;
+        // map["parameters"] = this._parameters;
 
-          message['notification']['title'].toString(),
-          message['notification']['body'].toString(),
-          tanggal.toString(),
-          jam.toString(),
-          notification_group,
-          'unread',
-          notification_group,
-          href_notification,
-        );
+        var dataNotifikasi = new NotifikasiModel(
+            "1", // id data ( absen, pengumuman, dan lain lain )
+
+            message['notification']['title'].toString(),
+            message['notification']['body'].toString(),
+            tanggal.toString(),
+            jam.toString(),
+            jenis_notifikasi,
+            'unread',
+            group_id,
+            group_name,
+            click_action,
+            href,
+            param);
 
         databaseHelper.saveNotification(dataNotifikasi);
+
+        print('database ke save');
         _showBottomFlash(
           message['notification']['title'].toString(),
           message['notification']['body'].toString(),
@@ -277,39 +300,36 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         Map<String, dynamic> dataContent = extractdata;
         // print(dataContent['click_action']);
         // print('k');
-        var href_notification = dataContent['href_notification'];
-        var notification_group = dataContent['notification_group'];
+        var href = dataContent['href'];
+        var jenis_notifikasi = dataContent['jenis_notifikasi'];
+        var group_id = dataContent['notification_group'];
+        var group_name = dataContent['notification_group'];
         var click_action = dataContent['click_action'];
-        // print('d');
-        // print(message['data']['href_notification'].toString());
-        // print('c');
-        // print(isidata['href_location']);
-        // print('$href_notification, $notification_group, $click_action');
-        // print('wikwik');
-
-        // Map<String, dynamic> arrayData = message["data"];
-        // print('1');
-        // print(arrayData['data']['href_notification']);
+        var parameters = dataContent['parameters'];
 
         var dataNotifikasi = new NotifikasiModel(
-          "1", // id data ( absen, pengumuman, dan lain lain )
-          message['notification']['title'].toString(),
-          message['notification']['body'].toString(),
-          tanggal.toString(),
-          jam.toString(),
-          notification_group,
-          'unread',
-          notification_group,
-          href_notification,
-        );
+            "1", // id data ( absen, pengumuman, dan lain lain )
+
+            message['notification']['title'].toString(),
+            message['notification']['body'].toString(),
+            tanggal.toString(),
+            jam.toString(),
+            jenis_notifikasi,
+            'unread',
+            group_id,
+            group_name,
+            click_action,
+            href,
+            parameters);
         databaseHelper.saveNotification(dataNotifikasi);
+        print('database ke save');
 
         // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
         displayNotification(message);
 
         notificationCounterValueNotifer.value++;
         notificationCounterValueNotifer
-            .notifyListeners(); // notify listeners here so ValueListenableBuilder will build the widget.
+            .notifyListeners(); // notify listeners here so ValueListenableBuilder will build the widget.Builder will build the widget.
 
         print('akhir onResume');
       },
@@ -331,6 +351,15 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
       var body = json.decode(res.body);
       print('response update token, $body');
     });
+  }
+
+  Future<String> queryDB() async {
+    //cek isi database
+    var dbClient = await databaseHelper.db;
+    var isidb = await dbClient
+        .rawQuery('select * from notifikasi order by tanggal desc, jam desc');
+    print('isi db nya');
+    print(isidb);
   }
 
   Future displayNotification(Map<String, dynamic> message) async {
@@ -796,7 +825,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
     //showNotifUper();
 
     // print('isi pesan nya on message ${message}');
-    print(' "gemessage  sssss =>",$gemessage');
+    // print(' "gemessage  sssss =>",$gemessage');
 
     var url = 'https://api.payright.dev/v1/api/requestotp';
 
@@ -921,38 +950,41 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         // print('jumlah notifikasi');
         // print(newNotificationCounterValue.toString());
         //returns an empty container if the value is 0 and returns the Stack otherwise
-        return newNotificationCounterValue == 1
-            ? Container()
-            : Stack(
-                alignment: AlignmentDirectional.topCenter,
-                children: [
-                  Icon(
-                    Icons.notifications,
-                    color: Colors.grey[400],
-                    size: 30,
+        // return newNotificationCounterValue == 0
+        //     ? Container()
+        //     :
+        return Stack(
+          alignment: AlignmentDirectional.topCenter,
+          children: [
+            Icon(
+              Icons.notifications,
+              color: Colors.grey[400],
+              size: 30,
+            ),
+            Container(
+              width: 30,
+              height: 30,
+              alignment: Alignment.topRight,
+              margin: EdgeInsets.only(right: 0.0),
+              child: Container(
+                width: 15,
+                height: 15,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.blue[300],
+                    border: Border.all(color: Colors.white, width: 1)),
+                child: Padding(
+                  padding: const EdgeInsets.all(0.0),
+                  child: Text(
+                    newNotificationCounterValue == 0
+                        ? '0'
+                        : newNotificationCounterValue.toString(),
                   ),
-                  Container(
-                    width: 30,
-                    height: 30,
-                    alignment: Alignment.topRight,
-                    margin: EdgeInsets.only(right: 0.0),
-                    child: Container(
-                      width: 15,
-                      height: 15,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.blue[300],
-                          border: Border.all(color: Colors.white, width: 1)),
-                      child: Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: Text(
-                          newNotificationCounterValue.toString(),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              );
+                ),
+              ),
+            ),
+          ],
+        );
       },
       valueListenable: notificationCounterValueNotifer,
     );

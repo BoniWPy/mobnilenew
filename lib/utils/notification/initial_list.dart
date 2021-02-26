@@ -37,40 +37,40 @@ Future<String> getNotification() async {
 }
 
 List<Task> tasks = [
-  new Task(
-      title: "Reminder for Upcoming Closing Date",
-      message: "Tutup buku periode :string :date -",
-      time: "08:55",
-      color: Colors.orange,
-      comment: false),
-  new Task(
-      title: "Irvandy Goutama completed this task",
-      message: "Project Notification",
-      time: "09:16",
-      color: Colors.cyan,
-      comment: true),
-  new Task(
-      title: "Reminder for Upcoming Closing Date",
-      message: "Tutup buku periode :string :date -",
-      time: "13:55",
-      color: Colors.orange,
-      comment: false),
-  new Task(
-      title: "Irvandy Goutama completed this task",
-      message: "Project Notification",
-      time: "14:16",
-      color: Colors.cyan,
-      comment: true),
-  new Task(
-      title: "Reminder for Upcoming Closing Date",
-      message: "Tutup buku periode :string :date -",
-      time: "15:55",
-      color: Colors.orange,
-      comment: false),
-  new Task(
-      title: "Irvandy Goutama completed this task",
-      message: "Project Notification",
-      time: "19:16",
-      color: Colors.cyan,
-      comment: true),
+  // new Task(
+  //     title: "Reminder for Upcoming Closing Date",
+  //     message: "Tutup buku periode :string :date -",
+  //     time: "08:55",
+  //     color: Colors.orange,
+  //     comment: false),
+  // new Task(
+  //     title: "Irvandy Goutama completed this task",
+  //     message: "Project Notification",
+  //     time: "09:16",
+  //     color: Colors.cyan,
+  //     comment: true),
+  // new Task(
+  //     title: "Reminder for Upcoming Closing Date",
+  //     message: "Tutup buku periode :string :date -",
+  //     time: "13:55",
+  //     color: Colors.orange,
+  //     comment: false),
+  // new Task(
+  //     title: "Irvandy Goutama completed this task",
+  //     message: "Project Notification",
+  //     time: "14:16",
+  //     color: Colors.cyan,
+  //     comment: true),
+  // new Task(
+  //     title: "Reminder for Upcoming Closing Date",
+  //     message: "Tutup buku periode :string :date -",
+  //     time: "15:55",
+  //     color: Colors.orange,
+  //     comment: false),
+  // new Task(
+  //     title: "Irvandy Goutama completed this task",
+  //     message: "Project Notification",
+  //     time: "19:16",
+  //     color: Colors.cyan,
+  //     comment: true),
 ];

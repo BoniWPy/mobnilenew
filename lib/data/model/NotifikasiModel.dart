@@ -7,8 +7,11 @@ class NotifikasiModel {
   String _jam;
   String _jenis_notifikasi;
   String _status;
-  String _group;
+  String _group_id;
+  String _group_name;
   String _click_action;
+  String _href;
+  String _parameters;
 
   NotifikasiModel(
       this._id_content,
@@ -18,8 +21,11 @@ class NotifikasiModel {
       this._jam,
       this._jenis_notifikasi,
       this._status,
-      this._group,
-      this._click_action);
+      this._group_id,
+      this._group_name,
+      this._click_action,
+      this._href,
+      this._parameters);
 
   NotifikasiModel.map(dynamic obj) {
     this._id_content = obj["id_content"];
@@ -29,8 +35,11 @@ class NotifikasiModel {
     this._jam = obj["jam"];
     this._jenis_notifikasi = obj["jenis_notifikasi"];
     this._status = obj["status"];
-    this._group = obj["grup"];
+    this._group_id = obj["grup_id"];
+    this._group_name = obj["grup_name"];
     this._click_action = obj['click_action'];
+    this._href = obj['href'];
+    this._parameters = obj['parameters'];
   }
 
   Map<String, dynamic> toMap() {
@@ -43,11 +52,12 @@ class NotifikasiModel {
     map["jam"] = this._jam;
     map["jenis_notifikasi"] = this._jenis_notifikasi;
     map["status"] = this._status;
-    map["grup"] = this._group;
+    map["group_id"] = this._group_id;
+    map["group_name"] = this._group_id;
     map["click_action"] = this._click_action;
+    map["href"] = this._href;
+    map["parameters"] = this._parameters;
+
     return map;
   }
-  // void setNotifikasiModelId(int id) {
-  //   this._id = id;
-  // }
 }
