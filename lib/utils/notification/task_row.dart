@@ -33,11 +33,11 @@ class TaskRow extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     new Text(
-                      task.name,
+                      task.title,
                       style: new TextStyle(fontSize: 18.0),
                     ),
                     new Text(
-                      task.category,
+                      task.message,
                       style: new TextStyle(fontSize: 12.0, color: Colors.grey),
                     )
                   ],

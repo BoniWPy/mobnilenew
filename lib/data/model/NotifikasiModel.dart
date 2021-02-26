@@ -20,6 +20,7 @@ class NotifikasiModel {
       this._status,
       this._group,
       this._click_action);
+
   NotifikasiModel.map(dynamic obj) {
     this._id_content = obj["id_content"];
     this._title = obj["title"];

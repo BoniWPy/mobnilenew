@@ -7,6 +7,7 @@ import 'package:new_payrightsystem/utils/notification/task_row.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
+//for notifiaction
 import 'package:new_payrightsystem/data/model/NotifikasiModel.dart';
 import 'package:new_payrightsystem/data/DatabaseHelper.dart';
 import 'package:new_payrightsystem/utils/shared_preferences.dart';
@@ -27,6 +28,7 @@ class _notificationPageState extends State<notificationPage> {
 
   var thisdate = DateTime.now();
   var dateFormat = DateFormat();
+  // List<Task> tasks = [];
   // initializeDateFormatting('id');
   // print(DateFormat().format(now)); // This will return date using the default locale
 
@@ -42,6 +44,7 @@ class _notificationPageState extends State<notificationPage> {
     super.initState();
     listModel = new ListModel(_listKey, tasks);
     print(DateFormat().format(thisdate));
+    // postRequest();
   }
 
   @override
@@ -145,7 +148,8 @@ class _notificationPageState extends State<notificationPage> {
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
                         new Text(
-                          name ? name : '',
+                          // name ? name : '',
+                          name,
                           style: new TextStyle(
                               fontSize: 26.0,
                               color: Colors.black87,
@@ -153,7 +157,8 @@ class _notificationPageState extends State<notificationPage> {
                               fontWeight: FontWeight.w400),
                         ),
                         new Text(
-                          company_name ? company_name : '',
+                          // company_name ? company_name : '',
+                          company_name,
                           style: new TextStyle(
                               fontSize: 14.0,
                               color: Colors.black87,
@@ -237,10 +242,26 @@ class _notificationPageState extends State<notificationPage> {
 
   Future<String> postRequest() async {
     var userinfo = await Data.getData();
+
     company_name = userinfo['company_name'];
     name = userinfo['name'];
     print('postrekuest beraksi');
-    var dbClient = await databaseHelper.db;
-    return company_name;
+    // var dbClient = await databaseHelper.db;
+
+    // var getNotif = await dbClient
+    //     .rawQuery('select * from notifikasi order by tanggal desc, jam desc');
+
+    // for (var i = 0; i < getNotif.lenght; i++) {
+    //   tasks.add(
+    //     Task(
+    //         name: getNotif[i]['nama'],
+    //         category: getNotif[i]['kategori'],
+    //         time: getNotif[i]['jam'],
+    //         color: Colors.orange,
+    //         comment: false),
+    //   );
+    // }
+
+    return 'ada data';
   }
 }

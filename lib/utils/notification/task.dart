@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 
 class Task {
-  final String name;
-  final String category;
+  final String title;
+  final String message;
   final String time;
   final Color color;
   final bool comment;
+  final String href;
 
-  Task({this.name, this.category, this.time, this.color, this.comment});
+  Task(
+      {this.title,
+      this.message,
+      this.time,
+      this.color,
+      this.comment,
+      this.href});
+
+  // getNotification();
 }
