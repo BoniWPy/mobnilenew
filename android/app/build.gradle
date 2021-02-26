@@ -73,7 +73,7 @@ android {
             // signingConfig signingConfigs.debug
 
             //sigining for release
-           signingConfig signingConfig.release
+           signingConfig signingConfigs.release
         }
     }
 }
