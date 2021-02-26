@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:new_payrightsystem/utils/notification/animated_fab.dart';
 import 'package:new_payrightsystem/utils/notification/diagonal_clipper.dart';
 import 'package:new_payrightsystem/utils/notification/list_model.dart';
-import 'package:new_payrightsystem/utils/notification/initial_list.dart';
+import 'package:new_payrightsystem/utils/notification/task.dart';
 import 'package:new_payrightsystem/utils/notification/task_row.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -28,7 +28,46 @@ class _notificationPageState extends State<notificationPage> {
 
   var thisdate = DateTime.now();
   var dateFormat = DateFormat();
-  // List<Task> tasks = [];
+
+  // List<Task> tasks = [
+  //   new Task(
+  //       title: "Reminder for Upcoming Closing Date",
+  //       message: "Tutup buku periode :string :date -",
+  //       time: "08:55",
+  //       color: Colors.orange,
+  //       comment: false),
+  //   new Task(
+  //       title: "Irvandy Goutama completed this task",
+  //       message: "Project Notification",
+  //       time: "09:16",
+  //       color: Colors.cyan,
+  //       comment: true),
+  //   new Task(
+  //       title: "Reminder for Upcoming Closing Date",
+  //       message: "Tutup buku periode :string :date -",
+  //       time: "13:55",
+  //       color: Colors.orange,
+  //       comment: false),
+  //   new Task(
+  //       title: "Irvandy Goutama completed this task",
+  //       message: "Project Notification",
+  //       time: "14:16",
+  //       color: Colors.cyan,
+  //       comment: true),
+  //   new Task(
+  //       title: "Reminder for Upcoming Closing Date",
+  //       message: "Tutup buku periode :string :date -",
+  //       time: "15:55",
+  //       color: Colors.orange,
+  //       comment: false),
+  //   new Task(
+  //       title: "Irvandy Goutama completed this task",
+  //       message: "Project Notification",
+  //       time: "19:16",
+  //       color: Colors.cyan,
+  //       comment: true),
+  // ];
+  List<Task> tasks = [];
   // initializeDateFormatting('id');
   // print(DateFormat().format(now)); // This will return date using the default locale
 
@@ -42,25 +81,66 @@ class _notificationPageState extends State<notificationPage> {
   @override
   void initState() {
     super.initState();
-    listModel = new ListModel(_listKey, tasks);
     print(DateFormat().format(thisdate));
     // postRequest();
+  }
+
+  Future<String> getNotification() async {
+    var userinfo = await Data.getData();
+    var dbClient = await databaseHelper.db;
+    var getNotification = await dbClient
+        .rawQuery('select * from notifikasi order by tanggal desc, jam desc');
+
+    // String _id_content;
+    // String _title;
+    // String _body;
+    // String _tanggal;
+    // String _jam;
+    // String _jenis_notifikasi;
+    // String _status;
+    // String _group;
+    // String _click_action;
+
+    for (var i = 0; i < getNotification.length; i++) {
+      tasks.add(
+        new Task(
+            title: getNotification[i]['title'].toString(),
+            message: getNotification[i]['body'].toString(),
+            time: getNotification[i]['tanggal'].toString() +
+                " " +
+                getNotification[i]['jam'].toString(),
+            color: Colors.orange,
+            comment: false),
+      );
+    }
+    listModel = new ListModel(_listKey, tasks);
+
+    print("panjang DB " + tasks.length.toString());
+
+    return "hai";
   }
 
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: new Stack(
-        children: <Widget>[
-          _buildTimeline(),
-          _buildIamge(),
-          _buildTopHeader(),
-          _buildProfileRow(),
-          _buildBottomPart(),
-          _buildFab(),
-        ],
-      ),
-    );
+        body: FutureBuilder<String>(
+            future: getNotification(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Stack(
+                  children: <Widget>[
+                    _buildTimeline(),
+                    _buildIamge(),
+                    _buildTopHeader(),
+                    _buildProfileRow(),
+                    _buildBottomPart(),
+                    _buildFab(),
+                  ],
+                );
+              } else {
+                return Container();
+              }
+            }));
   }
 
   Widget _buildFab() {
@@ -192,7 +272,7 @@ class _notificationPageState extends State<notificationPage> {
 
   Widget _buildTasksList() {
     return new Expanded(
-      child: new AnimatedList(
+      child: AnimatedList(
         initialItemCount: tasks.length,
         key: _listKey,
         itemBuilder: (context, index, animation) {
@@ -212,7 +292,7 @@ class _notificationPageState extends State<notificationPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Text(
-            'Notifikasi',
+            'Notifikasi 2',
             style: new TextStyle(fontSize: 34.0, fontFamily: "Poppins"),
           ),
           // new Text(

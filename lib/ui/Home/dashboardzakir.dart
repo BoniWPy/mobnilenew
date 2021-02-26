@@ -13,6 +13,7 @@ import 'package:new_payrightsystem/utils/notification/notification_page.dart';
 import 'package:new_payrightsystem/ui/Home/webviewMain.dart';
 
 import 'package:new_payrightsystem/ui/checkinout/checkOut.dart';
+import 'package:new_payrightsystem/utils/notification/task.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:new_payrightsystem/utils/toggle_shared.dart';
 import 'package:new_payrightsystem/utils/notification_page.dart';
@@ -136,6 +137,7 @@ class _dashboardState extends State<dashboard> with TickerProviderStateMixin {
   ValueNotifier<int> notificationCounterValueNotifer = ValueNotifier(0);
   var databaseHelper = new DatabaseHelper();
   List<String> myListNotif = [];
+  List<Task> tasks = [];
 
   @override
   initState() {
