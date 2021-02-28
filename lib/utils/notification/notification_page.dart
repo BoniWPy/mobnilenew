@@ -292,7 +292,7 @@ class _notificationPageState extends State<notificationPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Text(
-            'Notifikasi 2',
+            'Notifikasi',
             style: new TextStyle(fontSize: 34.0, fontFamily: "Poppins"),
           ),
           // new Text(
