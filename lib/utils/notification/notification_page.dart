@@ -81,7 +81,7 @@ class _notificationPageState extends State<notificationPage> {
   @override
   void initState() {
     super.initState();
-    print(DateFormat().format(thisdate));
+
     // postRequest();
   }
 
@@ -104,18 +104,18 @@ class _notificationPageState extends State<notificationPage> {
     for (var i = 0; i < getNotification.length; i++) {
       tasks.add(
         new Task(
-            title: getNotification[i]['title'].toString(),
-            message: getNotification[i]['body'].toString(),
-            time: getNotification[i]['tanggal'].toString() +
-                " " +
-                getNotification[i]['jam'].toString(),
-            color: Colors.orange,
-            comment: false),
+          title: getNotification[i]['title'].toString(),
+          message: getNotification[i]['body'].toString(),
+          time: getNotification[i]['tanggal'].toString() +
+              " " +
+              getNotification[i]['jam'].toString(),
+          color: Colors.orange,
+          comment: false,
+          href: getNotification[i]['href'].toString(),
+        ),
       );
     }
     listModel = new ListModel(_listKey, tasks);
-
-    print("panjang DB " + tasks.length.toString());
 
     return "hai";
   }
@@ -211,8 +211,6 @@ class _notificationPageState extends State<notificationPage> {
           future: postRequest(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-              print(company_name);
-              print('nama company');
               return new Row(
                 children: <Widget>[
                   new CircleAvatar(

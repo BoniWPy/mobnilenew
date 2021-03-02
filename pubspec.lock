@@ -278,7 +278,7 @@ packages:
       name: flutter_local_notifications
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.2"
+    version: "4.0.1+1"
   flutter_local_notifications_platform_interface:
     dependency: transitive
     description:
@@ -804,7 +804,7 @@ packages:
       name: timezone
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.9"
+    version: "0.6.1"
   trust_fall:
     dependency: "direct main"
     description:

@@ -186,13 +186,16 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
         var extractdata = JSON.jsonDecode(isidata['data']);
         Map<String, dynamic> dataContent = extractdata;
+        // print('datacontentnya');
+        // print(dataContent);
         // print(dataContent['click_action']);
         // print('k');
-        var href = dataContent['href'];
+
         var jenis_notifikasi = dataContent['jenis_notifikasi'];
         var group_id = dataContent['notification_group'];
         var group_name = dataContent['notification_group'];
         var click_action = dataContent['click_action'];
+        var href = dataContent['href_notification'];
         var param = dataContent['parameters'];
         // print('d');
         // print(message['data']['href_notification'].toString());
@@ -282,8 +285,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
       //   print('ada pesan background');
       // },
 
-      // ignore: missing_return
-      onResume: (Map<String, dynamic> message) {
+      onResume: (Map<String, dynamic> message) async {
         print('on resume $message');
         print('ada pesan di background');
 
@@ -294,18 +296,15 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         String jam = formatJam.format(now);
         var isidata = message['data'];
 
-        // _showTopFlash(style: FlashStyle.grounded);
-
         var extractdata = JSON.jsonDecode(isidata['data']);
         Map<String, dynamic> dataContent = extractdata;
-        // print(dataContent['click_action']);
-        // print('k');
-        var href = dataContent['href'];
+
         var jenis_notifikasi = dataContent['jenis_notifikasi'];
         var group_id = dataContent['notification_group'];
         var group_name = dataContent['notification_group'];
         var click_action = dataContent['click_action'];
-        var parameters = dataContent['parameters'];
+        var href = dataContent['href_notification'];
+        var param = dataContent['parameters'];
 
         var dataNotifikasi = new NotifikasiModel(
             "1", // id data ( absen, pengumuman, dan lain lain )
@@ -320,21 +319,23 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
             group_name,
             click_action,
             href,
-            parameters);
+            param);
+
         databaseHelper.saveNotification(dataNotifikasi);
-        print('database ke save');
+
+        print('database ke save di OnResume');
 
         // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
         displayNotification(message);
 
         notificationCounterValueNotifer.value++;
         notificationCounterValueNotifer
-            .notifyListeners(); // notify listeners here so ValueListenableBuilder will build the widget.Builder will build the widget.
+            .notifyListeners(); // notify listeners here so ValueListenableBuilder will build the widget.
 
         print('akhir onResume');
       },
-      // ignore: missing_return
-      onLaunch: (Map<String, dynamic> message) {
+
+      onLaunch: (Map<String, dynamic> message) async {
         print('on launch $message');
       },
     );

@@ -321,61 +321,61 @@ class _dashboardState extends State<dashboard> with TickerProviderStateMixin {
     });
   }
 
-  Widget _showPageLoader() {
-    print('show load page dipanggil');
-    return Stack(
-      children: <Widget>[
-        Positioned.fill(
-          child: BackdropFilter(
-            // filter: ImageFilter.blur(
-            //   sigmaY: 10,
-            //   sigmaX: 10,
-            // ),
-            child: Container(
-              color: Colors.white.withOpacity(0.6),
-            ),
-          ),
-        ),
-        showSpinner
-            ? Align(
-                alignment: Alignment.center,
-                child: Image.asset('assets/images/logo.png', height: 35),
-              )
-            : Container(),
-        showSpinner
-            ? Align(
-                alignment: Alignment.center,
-                child: RotationTransition(
-                  turns:
-                      Tween(begin: 0.0, end: 2.0).animate(animationController),
-                  child: Image.asset('assets/images/loading.png'),
-                ),
-              )
-            : Container(),
-        showChecked
-            ? Align(
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Image.asset('assets/images/checked.png'),
-                    SizedBox(height: 25),
-                    Material(
-                      child: Text(
-                        'Transaction Successful',
-                        style: TextStyle(
-                            fontFamily: "worksans",
-                            fontSize: 17,
-                            color: PaypalColors.Green),
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            : Container(),
-      ],
-    );
-  }
+  // Widget _showPageLoader() {
+  //   print('show load page dipanggil');
+  //   return Stack(
+  //     children: <Widget>[
+  //       Positioned.fill(
+  //           // child: BackdropFilter(
+  //           //   // filter: ImageFilter.blur(
+  //           //   //   sigmaY: 10,
+  //           //   //   sigmaX: 10,
+  //           //   // ),
+  //           //   child: Container(
+  //           //     color: Colors.white.withOpacity(0.6),
+  //           //   ),
+  //           // ),
+  //           ),
+  //       showSpinner
+  //           ? Align(
+  //               alignment: Alignment.center,
+  //               child: Image.asset('assets/images/logo.png', height: 35),
+  //             )
+  //           : Container(),
+  //       showSpinner
+  //           ? Align(
+  //               alignment: Alignment.center,
+  //               child: RotationTransition(
+  //                 turns:
+  //                     Tween(begin: 0.0, end: 2.0).animate(animationController),
+  //                 child: Image.asset('assets/images/loading.png'),
+  //               ),
+  //             )
+  //           : Container(),
+  //       showChecked
+  //           ? Align(
+  //               alignment: Alignment.center,
+  //               child: Column(
+  //                 mainAxisAlignment: MainAxisAlignment.center,
+  //                 children: <Widget>[
+  //                   Image.asset('assets/images/checked.png'),
+  //                   SizedBox(height: 25),
+  //                   Material(
+  //                     child: Text(
+  //                       'Transaction Successful',
+  //                       style: TextStyle(
+  //                           fontFamily: "worksans",
+  //                           fontSize: 17,
+  //                           color: PaypalColors.Green),
+  //                     ),
+  //                   ),
+  //                 ],
+  //               ),
+  //             )
+  //           : Container(),
+  //     ],
+  //   );
+  // }
 
   //end loading ngikutin paypal
 
