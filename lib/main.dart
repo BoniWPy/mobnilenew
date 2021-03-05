@@ -1,5 +1,5 @@
 import 'dart:async';
-//import 'package:connectivity/connectivity.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:intro_views_flutter/Models/page_view_model.dart';
 import 'package:new_payrightsystem/utils/shared_preferences.dart';
@@ -30,10 +30,6 @@ import 'package:overlay_support/overlay_support.dart';
 //import 'package:trust_fall/trust_fall.dart';
 
 void main() async {
-  // Instantiate Notification service
-  // NotificationService();
-  // kNotificationSlideDuration = const Duration(milliseconds: 5000);
-  // kNotificationDuration = const Duration(milliseconds: 3500);
   runApp(new MyApp());
 }
 // void main() =>
@@ -61,7 +57,7 @@ class SplashState extends State<Splash> {
   // String _networkStatus = '';
 
   // //TODO: device information, to checking the device has been jailbroken or no.
-  // checkDevice() async {
+  // void checkDevice() async {
   //   SharedPreferences prefs = await SharedPreferences.getInstance();
   //   bool isJailBroken = await TrustFall.isJailBroken;
   //   bool canMockLocation = await TrustFall.canMockLocation;
@@ -133,6 +129,7 @@ class SplashState extends State<Splash> {
     new Timer(new Duration(milliseconds: 3000), () {
       //getSavedData();
       pageRouteCheck();
+      // checkDevice();
       // print('pemanggilan class');
       //PushNotificationsManager();
 
