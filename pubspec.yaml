@@ -44,9 +44,9 @@ dependencies:
   flutter_vector_icons: ^0.2.0
   adv_fab: ^1.0.5
   fab_circular_menu: ^1.0.0
-
-  
-
+  permission_handler: ^5.1.0+2
+  location_permissions: ^3.0.0+1
+  wifi_info_flutter: any
   
   #barcode_scan: ^1.0.0
   #qr_flutter: ^2.0.0
@@ -113,6 +113,7 @@ dependencies:
   floating_action_bubble: 1.0.9
   ss_bottom_navbar: 0.1.0
   flutter_screenutil: ^0.4.2
+  
   
 
 dev_dependencies:

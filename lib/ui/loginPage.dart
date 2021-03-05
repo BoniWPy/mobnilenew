@@ -487,6 +487,7 @@ class _LoginPageState extends State<LoginPage>
               'button_checkout': 'invisible',
               'config_ess': body['config_ess'],
               'config_scan': body['config_scan'],
+              'config_barcode_value': body['config_barcode_value'],
             };
             Data.saveData(userinfo);
           } else {
@@ -508,6 +509,7 @@ class _LoginPageState extends State<LoginPage>
               'button_checkout': 'invisible',
               'config_ess': body['config_ess'],
               'config_scan': body['config_scan'],
+              'config_barcode_value': body['config_barcode_value'],
             };
             Data.saveData(userinfo);
           }

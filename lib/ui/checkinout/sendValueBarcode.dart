@@ -1,9 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:http/http.dart' as http;
 import 'package:new_payrightsystem/ui/Home/dashboard.dart';
+import 'package:new_payrightsystem/ui/Home/webviewMain.dart';
 import 'package:new_payrightsystem/utils/toggle_shared.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -138,7 +140,11 @@ Future<void> alertSuccessFailed(
           "OK",
           style: TextStyle(color: Colors.white, fontSize: 20),
         ),
-        onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
+        onPressed: () async {
+          Navigator.of(context, rootNavigator: true).pop();
+          // Navigator.of(context, rootNavigator: true).pop();
+        },
+
         // color: Color.fromRGBO(0, 179, 134, 1.0),
         color: Colors.blue[300],
         radius: BorderRadius.circular(20.0),

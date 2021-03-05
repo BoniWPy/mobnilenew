@@ -11,7 +11,7 @@ class Data {
     // pastikan key adalah unik, jadi lebih baik gunakan nama domain
     //var savedData = prefs.getString('ID.NGASTURI.TUTORIAL.PREF');
     var userinfo = prefs.getString('User.Info');
-
+    print(" aneh aneh " + userinfo.toString());
     // jika nilai masih null, misal saat pertama kali install
     // kita beri nilai default agar tidak error saat diconvert dengan perintah json.decode
     if (userinfo == null) {

@@ -3,12 +3,12 @@ import 'package:new_payrightsystem/utils/notification/task.dart';
 import 'package:flutter/material.dart';
 import 'package:new_payrightsystem/ui/Home/webviewMain.dart';
 
-class TaskRow extends StatelessWidget {
+class TaskChild extends StatelessWidget {
   final Task task;
   final double dotSize = 12.0;
   final Animation<double> animation;
 
-  const TaskRow({Key key, this.task, this.animation}) : super(key: key);
+  const TaskChild({Key key, this.task, this.animation}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +59,7 @@ class TaskRow extends StatelessWidget {
             ),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => NotificationChild(task.href)));
-              // Navigator.of(context).push(MaterialPageRoute(
-              //     builder: (_) => InAppWebViewExampleScreen(task.href)));
+                  builder: (_) => InAppWebViewExampleScreen(task.href)));
             },
           )),
     );
