@@ -118,14 +118,6 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
   var color = const Color(0xFF2196F3);
 
-  final items = [
-    SSBottomNavItem(text: 'Home', iconData: Icons.home),
-    SSBottomNavItem(text: 'Absen Masuk', iconData: Icons.login),
-    SSBottomNavItem(text: 'Absen Keluar', iconData: Icons.logout),
-    // SSBottomNavItem(text: 'Absen Keluar', iconData: Icons.add, isIconOnly: true),
-    SSBottomNavItem(text: 'Notifikasi', iconData: Icons.notifications),
-  ];
-
   AdvFabController controller;
   AdvFabController mabialaFABController;
   bool useFloatingSpaceBar = false;
@@ -556,6 +548,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
             // onDisplayChange: print('print'),
             children: <Widget>[
               fabsinglemenuAbsenMasuk(() {
+                //set action for this menu
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (_) => ScanScreenIn()));
               }),
@@ -758,39 +751,6 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
       ),
     );
   }
-
-  Widget _page(Color color) => Container(color: color);
-
-  List<Widget> _buildPages() => _colors.map((color) => _page(color)).toList();
-
-  Widget _bottomSheet() => Container(
-        color: Colors.white,
-        child: Column(
-          children: [
-            // ListTile(
-            //   leading: Icon(Icons.camera_alt),
-            //   title: Text('Absen Keluar'),
-            // ),
-            // ListTile(
-            //   leading: Icon(Icons.photo_library),
-            //   title: Text('Choose from Gallery'),
-            // ),
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Absen Keluar'),
-              onTap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => ScanScreenIn()));
-              },
-              // onTap: ()   Navigator.of(context)
-              //       .push(MaterialPageRoute(builder: (_) => ScanScreenIn());
-              //     ;}
-            ),
-          ],
-        ),
-      );
-
-  //list usefull var
 
   //var for alertStyle
   var alertStyle = AlertStyle(

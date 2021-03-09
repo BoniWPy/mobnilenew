@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_payrightsystem/ui/checkinout/checkIn.dart';
 import 'package:new_payrightsystem/utils/notification/animated_fab.dart';
 import 'package:new_payrightsystem/utils/notification/diagonal_clipper.dart';
 import 'package:new_payrightsystem/utils/notification/list_model.dart';
@@ -44,11 +45,16 @@ class NotificationChildState extends State<NotificationChild> {
   }
 
   Future<String> getNotification() async {
-    // await http.post(widget.urlDetail,
-    await http
-        .get("https://api.payright.dev/v1/auth/cekNotif")
+    // await http
+    print(user_id);
+    await http.post(widget.urlDetail, body: {
+      "user_id": user_id,
+      'token': token,
+    })
+        // .post("https://api.payright.dev/v1/auth/cekNotif")
         .then((response) async {
       print(response.body);
+
       var extractdata = JSON.jsonDecode(response.body);
       List<dynamic> dataChild = extractdata;
       for (var i = 0; i < dataChild.length; i++) {
@@ -160,7 +166,7 @@ class NotificationChildState extends State<NotificationChild> {
             child: new Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: new Text(
-                "Notifikasi",
+                "Detail Group Task",
                 style: new TextStyle(
                     fontSize: 20.0,
                     color: Colors.white,
@@ -261,7 +267,7 @@ class NotificationChildState extends State<NotificationChild> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Text(
-            'Notifikasi',
+            'Detail Notifikasi',
             style: new TextStyle(fontSize: 34.0, fontFamily: "Poppins"),
           ),
           // new Text(

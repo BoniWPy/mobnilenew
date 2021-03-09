@@ -544,9 +544,9 @@ class _dashboardState extends State<dashboard> {
                       if (button_checkin == 'visible' ||
                           button_checkin == 'invisble') {
                         Navigator.of(context).push(
-                            // MaterialPageRoute(builder: (_) => ScanScreenIn()));
-                            MaterialPageRoute(
-                                builder: (_) => EmployeeDashboard()));
+                            MaterialPageRoute(builder: (_) => ScanScreenOut()));
+                        // MaterialPageRoute(
+                        //     builder: (_) => EmployeeDashboard()));
                       } else {
                         print('tombol cekin TIDAK bisa di click');
                       }

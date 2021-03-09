@@ -6,19 +6,22 @@ import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:barcode_scan/barcode_scan.dart';
 import 'package:flutter/rendering.dart';
+import 'package:location_permissions/location_permissions.dart';
 import 'package:new_payrightsystem/ui/Home/dashboard.dart';
 import 'package:new_payrightsystem/ui/checkinout/sendValueBarcode.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:permission_handler/permission_handler.dart';
 import './sendValueBarcode.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 import 'package:new_payrightsystem/utils/shared_preferences.dart';
 import 'package:android_intent/android_intent.dart';
+import 'package:wifi_info_flutter/wifi_info_flutter.dart';
 
 //TODO: sebelum mengklik absen masuk, location harus di dapat terlebih dahulu
 
-// void setState(Null Function() param0) {}
+void setState(Null Function() param0) {}
 
 final String url = "https://api.payright.dev/v1/apiMobile/checkinout";
 
@@ -42,7 +45,7 @@ class _ScanState extends State<ScanScreenIn> {
   @override
   initState() {
     new Timer(new Duration(milliseconds: 3000), () {
-      // getSavedData();
+      getSavedData();
       _checkGps();
     });
     super.initState();
@@ -51,34 +54,24 @@ class _ScanState extends State<ScanScreenIn> {
   ProgressDialog get pr =>
       new ProgressDialog(context, type: ProgressDialogType.Normal);
 
-  // int employee_id, company_id, user_id, employee_employ_id;
+  int employee_id, company_id, user_id, employee_employ_id;
 
-  // int config_location, config_barcode, config_macaddress, company_config_id;
+  int config_location, config_barcode, config_macaddress, company_config_id;
 
   var company_name,
       name,
       button_checkin,
       button_checkout,
       _visibleCheckIn,
-      _visibleCheckOut;
+      _visibleCheckOut,
+      config_barcode_value;
 
   var checktime_type = "check_in";
 
-  //double lat, long;
+  double lat, long, set_long, set_lat;
   GeolocationStatus vargeolocationStatus;
 
   var tappedYes = false;
-
-  // int employee_id, company_id, user_id, employee_employ_id;
-
-  var token = 'fhjkdshfdjsf';
-  int user_id = 1;
-  int company_id = 15;
-  int employee_id = 4;
-  int employee_employ_id = 4;
-  double lat = 45.90;
-  double long = 104.33;
-  int company_config_id = 3;
 
   getSavedData() async {
     var userinfo = await Data.getData();
@@ -91,22 +84,23 @@ class _ScanState extends State<ScanScreenIn> {
     config_location = userinfo['config_location'];
     config_barcode = userinfo['config_barcode'];
     config_macaddress = userinfo['config_macaddress'];
-    // company_config_id = userinfo['company_config_id'];
+    company_config_id = userinfo['company_config_id'];
     button_checkin = userinfo['button_checkin'];
     button_checkout = userinfo['button_checkout'];
+    config_barcode_value = userinfo['config_barcode_value'];
+
+    print('configlocatoin di getsaved, $config_barcode_value');
   }
 
   Future _checkGps() async {
-    // var userinfo = await Data.getData();
-    // config_location = userinfo['config_location'];
-    // config_barcode = userinfo['config_barcode'];
-    // config_macaddress = userinfo['config_macaddress'];
-    // company_config_id = userinfo['company_config_id'];
-    config_location = 0;
-    config_barcode = 0;
+    var userinfo = await Data.getData();
+    config_location = userinfo['config_location'];
+    config_barcode = userinfo['config_barcode'];
+    config_macaddress = userinfo['config_macaddress'];
+    company_config_id = userinfo['company_config_id'];
+    config_barcode_value = userinfo['config_barcode_value'];
 
-    print('isi config location di function _checkgps ->, $config_location');
-
+    print('config ocation di futuer _checkGps, $config_location');
     if (config_location == 0) {
       var isGpsEnabled = true;
       long = 0.0;
@@ -117,11 +111,7 @@ class _ScanState extends State<ScanScreenIn> {
       GeolocationStatus geolocationStatus =
           await Geolocator().checkGeolocationPermissionStatus();
 
-      //TODO: this problem, the geolocationStatus Granted but, cant get the long and lang
-      // masybe next task to allow permision for get location
-
       var isGpsEnabled = await Geolocator().isLocationServiceEnabled();
-
       if (isGpsEnabled == false) {
         if (Theme.of(context).platform == TargetPlatform.android) {
           showDialog(
@@ -134,11 +124,13 @@ class _ScanState extends State<ScanScreenIn> {
                 actions: <Widget>[
                   FlatButton(
                     child: Text('Ok'),
-                    onPressed: () {
+                    onPressed: () async {
+                      Navigator.of(context, rootNavigator: true).pop();
                       final AndroidIntent intent = AndroidIntent(
                           action: 'android.settings.LOCATION_SOURCE_SETTINGS');
-                      intent.launch();
-                      Navigator.of(context, rootNavigator: true).pop();
+                      await intent.launch();
+
+                      _checkGps();
                     },
                   ),
                 ],
@@ -148,50 +140,44 @@ class _ScanState extends State<ScanScreenIn> {
         }
       } else {
         _getUserLocation(isGpsEnabled);
+        //print('dari _getGPS ke _getUserLocation');
       }
     }
   }
 
   _getUserLocation(isGpsEnabled) async {
-    //force if config_location = 0
-    if (config_location == 0) {
-      long = 0.0;
-      lat = 0.0;
-      scan(lat, long);
-    } else {
-      if (isGpsEnabled = true) {
-        Geolocator geolocator = Geolocator();
-        Position userLocation;
+    if (isGpsEnabled = true) {
+      Geolocator geolocator = Geolocator();
+      Position userLocation;
 
-        Position position = await Geolocator().getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.bestForNavigation);
+      Position position = await Geolocator().getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.bestForNavigation);
 
-        lat = position.latitude;
-        long = position.longitude;
+      lat = position.latitude;
+      long = position.longitude;
 
-        double distanceInMeters = await Geolocator()
-            .distanceBetween(107.597749, -6.904357, lat, long);
-        //logt lang disdik jabar -6.904357,107.597749
-        //logt lat tabulasi -6.904357, 107.597749
-        //     print("jarak dalam meter ${distanceInMeters}");
-        //TODO: *Harvesine = give condition if out of location.
-        // print('cek value');
+      double distanceInMeters =
+          await Geolocator().distanceBetween(set_lat, set_long, lat, long);
+      //logt lang disdik jabar -6.904357,107.597749
+      //logt lat tabulasi -6.904357, 107.597749
+      //     print("jarak dalam meter ${distanceInMeters}");
+      //TODO: *Harvesine = give condition if out of location.
+      // print('cek value');
 
-        if (long == null) {
-          print('lokasi belom nemu euy, jadi loading lagi');
-          pr.show();
-          _getUserLocation(isGpsEnabled);
-        } else if (long != null) {
-          print('loading di tutup karena lokasi udah dapet');
-          pr.hide();
-          Future.delayed(Duration(seconds: 1)).then((onValue) {
-            scan(lat, long);
-          });
-        }
-      } else {
-        print("location service not enabled, di else line 154");
-        // _checkGps();
+      if (long == null) {
+        print('lokasi belom nemu euy, jadi loading lagi');
+        pr.show();
+        _getUserLocation(isGpsEnabled);
+      } else if (long != null) {
+        print('loading di tutup karena lokasi udah dapet');
+        pr.hide();
+        Future.delayed(Duration(seconds: 1)).then((onValue) {
+          scan(lat, long);
+        });
       }
+    } else {
+      print("location service not enabled, di else line 154");
+      // _checkGps();
     }
   } //async
 
@@ -256,97 +242,112 @@ class _ScanState extends State<ScanScreenIn> {
 
   Future scan(lat, long) async {
     pr.hide();
-
-    if (config_location == 1 && long == null) {
-      Future.delayed(Duration(seconds: 10)).then((onValue) {
-        print('loading ditutup');
-        Future.delayed(Duration(seconds: 1)).then((onValue) {
-          pr.hide();
-        });
-        Future.delayed(Duration(seconds: 1)).then((onValue) {
-          // alert(context);
-        });
-      });
-      print('sambil loading BACKEND');
-      _checkGps();
-      var isGpsEnabled = true;
-      print('manggil algi _getuserlocation');
-      _getUserLocation(isGpsEnabled);
-    } else {
-      print('config bargode => , $config_barcode');
-      if (config_barcode != null) {
-        print('config barcode false');
-        // pr.show();
-        // Future.delayed(Duration(seconds: )).then((onValue) {
-        //             pr.hide();
-
-        //           });
-
-        try {
-          print('kalo masuk kesini config barcode = 0');
-          // var result = await BarcodeScanner.scan();
-          // setState(() => this.result = result as String);
-          if (config_location != 0) {
-            pr.show();
-            pr.hide();
-          }
-          FutureBuilder(
-              future: post(
-                tipeAbsen,
-                context,
-                url,
-                {
-                  "token": '${token}',
-                  "user_id": '${user_id}',
-                  "company_id": '${company_id}',
-                  "employee_id": '${employee_id}',
-                  "employee_employ_id": '${employee_employ_id}',
-                  "latitude": '${long}',
-                  "longitude": '${lat}',
-                  "company_config_id": '${company_config_id}',
-                  "checktime_type": checktime_type,
-                },
+    String passBarcode = "";
+    String passMacAddress = "";
+    String valueBarcode = "";
+    String valueMacAddress = "";
+    print('config bargode => , $config_barcode');
+    if (config_barcode != null && config_barcode != 0) {
+      passBarcode = "false";
+      ScanResult resultBarcode = await BarcodeScanner.scan();
+      valueBarcode = resultBarcode.rawContent.toString();
+      if (valueBarcode == config_barcode_value.toString()) {
+        passBarcode = "";
+      } else {
+        await Alert(
+          context: context,
+          style: alertStyle,
+          title: "QR Code Salah",
+          image: Image.asset("assets/img/cancel.png"),
+          buttons: [
+            DialogButton(
+              child: Text(
+                "OK",
+                style: TextStyle(color: Colors.white, fontSize: 20),
               ),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  Future.delayed(Duration(seconds: 1)).then((onValue) {
-                    pr.hide();
-                  });
-                  print('mestinya di tutup');
-
-                  return Text(snapshot.data.status);
-                } else if (snapshot.hasError) {
-                  Future.delayed(Duration(seconds: 1)).then((onValue) {
-                    pr.hide();
-                  });
-                  print('mestinya di tutup');
-                  return Text("${snapshot.error}");
-                }
-                print('mestinya di tutup');
-                pr.hide();
-                return null;
-              });
-          pr.hide();
-          print('TUTUP');
-        } catch (e) {
-          Future.delayed(Duration(seconds: 1)).then((onValue) {
-            pr.hide();
-          });
-          setState(() => this.result = 'Unknown error: $e');
-        }
+              onPressed: () async {
+                Navigator.of(context, rootNavigator: true).pop();
+                // Navigator.of(context, rootNavigator: true).pop();
+              },
+              color: Colors.blue[300],
+              radius: BorderRadius.circular(20.0),
+            ),
+          ],
+        ).show();
       }
+    }
+    if (config_macaddress != null && config_macaddress != 0) {
+      passMacAddress = "false";
+      valueMacAddress = await WifiInfo().getWifiBSSID();
+      print(" value mac " + valueMacAddress.toString());
+      passMacAddress = "";
+    }
+    if (passBarcode == "" && passMacAddress == "") {
+      kirimValue(
+          lat, long, valueBarcode.toString(), valueMacAddress.toString());
+    } else {
+      scan(lat, long);
     }
   }
 
-  // Future alert(context) async {
-  //   AlertDialog alertDialog = new AlertDialog(
-  //     content: new Container(
-  //       height: 300.0,
-  //       child: new Center(
-  //         child: Image.asset("assets/img/error_location.png"),
-  //       ),
-  //     ),
-  //   );
-  //   showDialog(context: context, child: alertDialog);
-  // }
+  kirimValue(lat, long, String valueBarcode, String valueMac) {
+    try {
+      FutureBuilder(
+          future: post(
+            tipeAbsen,
+            context,
+            url,
+            {
+              "token": '${token}',
+              "user_id": '${user_id}',
+              "company_id": '${company_id}',
+              "employee_id": '${employee_id}',
+              "employee_employ_id": '${employee_employ_id}',
+              "latitude": '${long}',
+              "longitude": '${lat}',
+              "company_config_id": '${company_config_id}',
+              "checktime_type": checktime_type,
+              "serialno": valueBarcode.toString(),
+              "mac_address": valueMac.toString(),
+            },
+          ),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              Future.delayed(Duration(seconds: 1)).then((onValue) {
+                pr.hide();
+              });
+              print('mestinya di tutup');
+
+              return Text(snapshot.data.status);
+            } else if (snapshot.hasError) {
+              Future.delayed(Duration(seconds: 1)).then((onValue) {
+                pr.hide();
+              });
+              print('mestinya di tutup');
+              return Text("${snapshot.error}");
+            }
+            print('mestinya di tutup');
+            pr.hide();
+            return null;
+          });
+      pr.hide();
+    } catch (e) {
+      Future.delayed(Duration(seconds: 1)).then((onValue) {
+        pr.hide();
+      });
+      // setState(() => this.result = 'Unknown error: $e');
+    }
+  }
+
+  Future alert(context) async {
+    AlertDialog alertDialog = new AlertDialog(
+      content: new Container(
+        height: 300.0,
+        child: new Center(
+          child: Image.asset("assets/img/error_location.png"),
+        ),
+      ),
+    );
+    // showDialog(context: context, child: alertDialog);
+  }
 }

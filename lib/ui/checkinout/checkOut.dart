@@ -45,7 +45,6 @@ class _ScanState extends State<ScanScreenOut> {
   @override
   initState() {
     new Timer(new Duration(milliseconds: 3000), () {
-      print("out langkah 1");
       getSavedData();
       _checkGps();
     });
@@ -58,14 +57,14 @@ class _ScanState extends State<ScanScreenOut> {
   int employee_id, company_id, user_id, employee_employ_id;
 
   int config_location, config_barcode, config_macaddress, company_config_id;
-  String config_barcode_value = "ustad";
 
   var company_name,
       name,
       button_checkin,
       button_checkout,
       _visibleCheckIn,
-      _visibleCheckOut;
+      _visibleCheckOut,
+      config_barcode_value;
 
   var checktime_type = "check_out";
 
@@ -88,7 +87,7 @@ class _ScanState extends State<ScanScreenOut> {
     company_config_id = userinfo['company_config_id'];
     button_checkin = userinfo['button_checkin'];
     button_checkout = userinfo['button_checkout'];
-    // config_barcode_value = userinfo['config_barcode_value'];
+    config_barcode_value = userinfo['config_barcode_value'];
 
     print('configlocatoin di getsaved, $config_barcode_value');
   }
@@ -99,7 +98,7 @@ class _ScanState extends State<ScanScreenOut> {
     config_barcode = userinfo['config_barcode'];
     config_macaddress = userinfo['config_macaddress'];
     company_config_id = userinfo['company_config_id'];
-    // config_barcode_value = userinfo['config_barcode_value'];
+    config_barcode_value = userinfo['config_barcode_value'];
 
     print('config ocation di futuer _checkGps, $config_location');
     if (config_location == 0) {
@@ -258,7 +257,7 @@ class _ScanState extends State<ScanScreenOut> {
         await Alert(
           context: context,
           style: alertStyle,
-          title: "QR CODE SALAH " + config_barcode_value.toString(),
+          title: "QR CODE SALAH",
           image: Image.asset("assets/img/cancel.png"),
           buttons: [
             DialogButton(
@@ -293,7 +292,6 @@ class _ScanState extends State<ScanScreenOut> {
 
   kirimValue(lat, long, String valueBarcode, String valueMac) {
     try {
-      print('kalo masuk kesini config barcode = 0');
       FutureBuilder(
           future: post(
             tipeAbsen,
