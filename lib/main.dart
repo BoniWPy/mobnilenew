@@ -8,7 +8,7 @@ import 'package:new_payrightsystem/ui/loginPage.dart';
 import 'package:intro_views_flutter/intro_views_flutter.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-import 'package:new_payrightsystem/ui/Home/dashboardzakir.dart';
+// import 'package:new_payrightsystem/ui/Home/dashboardzakir.dart';
 import 'package:new_payrightsystem/utils/network/conectivity.dart';
 import 'package:new_payrightsystem/utils/notification_services.dart';
 import 'package:new_payrightsystem/utils/push_notifications.dart';

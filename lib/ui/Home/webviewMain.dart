@@ -183,7 +183,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         // print(dataContent['click_action']);
         // print('k');
 
-        var jenis_notifikasi = dataContent['jenis_notifikasi'];
+        var jenis_notifikasi = 'notif_list_type';
         var group_id = dataContent['notification_group'];
         var group_name = dataContent['notification_group'];
         var click_action = dataContent['click_action'];
@@ -272,7 +272,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         // ).show();
         // _showItemDialog(message);
       },
-      // onBackgroundMessage: myBackgroundMessageHandler,
+      onBackgroundMessage: myBackgroundMessageHandler,
       // onResume: (Map<String, dynamic> message) async {
       //   print('ada pesan background');
       // },
@@ -291,18 +291,20 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         var extractdata = JSON.jsonDecode(isidata['data']);
         Map<String, dynamic> dataContent = extractdata;
 
-        var jenis_notifikasi = dataContent['jenis_notifikasi'];
+        var jenis_notifikasi = dataContent['notif_list_type'];
         var group_id = dataContent['notification_group'];
         var group_name = dataContent['notification_group'];
         var click_action = dataContent['click_action'];
         var href = dataContent['href_notification'];
         var param = dataContent['parameters'];
+        var title = dataContent['title'];
+        var pesan = dataContent['message'];
 
         var dataNotifikasi = new NotifikasiModel(
             "1", // id data ( absen, pengumuman, dan lain lain )
 
-            message['notification']['title'].toString(),
-            message['notification']['body'].toString(),
+            title,
+            pesan,
             tanggal.toString(),
             jam.toString(),
             jenis_notifikasi,
@@ -342,7 +344,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
       };
       var res = await CallApi().postUpdateFcm(data, 'updatefcm');
       var body = json.decode(res.body);
-      print('response update token, $body');
+      print('UPDATE TOKEN, $body');
     });
   }
 
@@ -1335,6 +1337,5 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 //     );
 //   }).toList();
 // }
-// Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
-//   notificationService.showNotifBackground(message);
-// }
+Future<dynamic> myBackgroundMessageHandler(
+    Map<String, dynamic> message) async {}

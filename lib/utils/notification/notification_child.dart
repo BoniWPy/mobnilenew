@@ -15,10 +15,14 @@ import 'package:new_payrightsystem/data/DatabaseHelper.dart';
 import 'package:new_payrightsystem/utils/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as JSON;
+import 'dart:convert';
+
+import 'package:new_payrightsystem/utils/api/api.dart';
 
 class NotificationChild extends StatefulWidget {
   String urlDetail;
   NotificationChild(this.urlDetail);
+
   @override
   NotificationChildState createState() => new NotificationChildState();
 }
@@ -34,7 +38,7 @@ class NotificationChildState extends State<NotificationChild> {
   var dateFormat = DateFormat();
   List<Task> tasks = [];
 
-  var userinfo, company_name, name;
+  var userinfo, company_name, name, user_id, token, data;
   var databaseHelper = new DatabaseHelper();
 
   @override
@@ -44,30 +48,47 @@ class NotificationChildState extends State<NotificationChild> {
     // postRequest();
   }
 
+  // String urlDetail;
+
   Future<String> getNotification() async {
-    // await http
-    print(user_id);
-    await http.post(widget.urlDetail, body: {
+    var userinfo = await Data.getData();
+
+    user_id = userinfo['user_id'];
+    token = userinfo['token'];
+    var group_id = 'task#1155';
+
+    data = {
       "user_id": user_id,
       'token': token,
-    })
-        // .post("https://api.payright.dev/v1/auth/cekNotif")
-        .then((response) async {
-      print(response.body);
+      'group_id': group_id,
+    };
 
-      var extractdata = JSON.jsonDecode(response.body);
-      List<dynamic> dataChild = extractdata;
-      for (var i = 0; i < dataChild.length; i++) {
-        tasks.add(new Task(
-          title: dataChild[i]['title'],
-          message: dataChild[i]['body'],
-          time: dataChild[i]['time'],
-          color: Colors.orange,
-          comment: false,
-          href: dataChild[i]['detail_url'],
-        ));
-      }
-    });
+    // await http.post(widget.urlDetail, body: {
+    //   "user_id": user_id,
+    //   'token': token,
+    // })
+
+    // await http
+    // .post("https://api.payright.dev/v1/auth/cekNotif")
+    // .then((response) async {
+    var res = await CallApi().getDetailNotification(data, 'detailnotif');
+    var body = json.decode(res.body);
+
+    var extractdata = JSON.jsonDecode(res.body);
+
+    List<dynamic> dataChild = extractdata;
+    for (var i = 0; i < dataChild.length; i++) {
+      tasks.add(new Task(
+        title: dataChild[i]['title'],
+        message: dataChild[i]['body'],
+        time: dataChild[i]['time'],
+        color: Colors.orange,
+        comment: false,
+        href: dataChild[i]['detail_url'],
+      ));
+      // }
+    }
+    ;
 
     // tasks.add(new Task(
     //   title: "judulChild",
@@ -300,6 +321,8 @@ class NotificationChildState extends State<NotificationChild> {
 
     company_name = userinfo['company_name'];
     name = userinfo['name'];
+    user_id = userinfo['user_id'];
+    token = userinfo['token'];
     print('postrekuest beraksi');
     // var dbClient = await databaseHelper.db;
 
