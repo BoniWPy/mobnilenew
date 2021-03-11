@@ -108,7 +108,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
       name,
       employee_employe_id,
       button_checkin,
-      button_checkout;
+      button_checkout,
+      jenis_notifikasi;
 
   var totalMessage;
   int company_id, user_id;
@@ -178,12 +179,13 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
         var extractdata = JSON.jsonDecode(isidata['data']);
         Map<String, dynamic> dataContent = extractdata;
-        // print('datacontentnya');
-        // print(dataContent);
-        // print(dataContent['click_action']);
-        // print('k');
 
-        var jenis_notifikasi = 'notif_list_type';
+        if (dataContent['notif_list_type'] == 'private') {
+          jenis_notifikasi = 'private';
+        } else {
+          jenis_notifikasi = 'group';
+        }
+
         var group_id = dataContent['notification_group'];
         var group_name = dataContent['notification_group'];
         var click_action = dataContent['click_action'];
@@ -291,7 +293,11 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         var extractdata = JSON.jsonDecode(isidata['data']);
         Map<String, dynamic> dataContent = extractdata;
 
-        var jenis_notifikasi = dataContent['notif_list_type'];
+        if (dataContent['notif_list_type'] == 'private') {
+          jenis_notifikasi = 'private';
+        } else {
+          jenis_notifikasi = 'group';
+        }
         var group_id = dataContent['notification_group'];
         var group_name = dataContent['notification_group'];
         var click_action = dataContent['click_action'];

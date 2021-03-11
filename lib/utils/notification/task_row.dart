@@ -39,11 +39,11 @@ class TaskRow extends StatelessWidget {
                           task.title,
                           style: new TextStyle(fontSize: 18.0),
                         ),
-                        new Text(
-                          task.message,
-                          style:
-                              new TextStyle(fontSize: 12.0, color: Colors.grey),
-                        )
+                        // new Text(
+                        //   task.message,
+                        //   style:
+                        //       new TextStyle(fontSize: 12.0, color: Colors.grey),
+                        // )
                       ],
                     ),
                   ),
@@ -59,7 +59,7 @@ class TaskRow extends StatelessWidget {
             ),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => NotificationChild(task.href)));
+                  builder: (_) => NotificationChild(task.href, task.group_id)));
               // Navigator.of(context).push(MaterialPageRoute(
               //     builder: (_) => InAppWebViewExampleScreen(task.href)));
             },

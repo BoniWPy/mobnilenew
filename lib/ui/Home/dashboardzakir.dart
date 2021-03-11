@@ -1499,7 +1499,7 @@ class _dashboardState extends State<dashboard> with TickerProviderStateMixin {
 
   void _changeFilterState() {
     showOnlyComment = !showOnlyComment;
-    tasks.where((task) => !task.comment).forEach((task) {
+    tasks.where((task) => !task.group).forEach((task) {
       // if (showOnlyComment) {
       //   listModel.removeAt(listModel.indexOf(task));
       // } else {

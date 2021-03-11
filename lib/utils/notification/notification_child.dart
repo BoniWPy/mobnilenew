@@ -21,7 +21,8 @@ import 'package:new_payrightsystem/utils/api/api.dart';
 
 class NotificationChild extends StatefulWidget {
   String urlDetail;
-  NotificationChild(this.urlDetail);
+  String group_id;
+  NotificationChild(this.urlDetail, this.group_id);
 
   @override
   NotificationChildState createState() => new NotificationChildState();
@@ -32,7 +33,8 @@ class NotificationChildState extends State<NotificationChild> {
       new GlobalKey<AnimatedListState>();
   final double _imageHeight = 256.0;
   ListModel listModel;
-  bool showOnlyComment = false;
+  bool showOnlyGroup = false;
+  bool group;
 
   var thisdate = DateTime.now();
   var dateFormat = DateFormat();
@@ -55,12 +57,10 @@ class NotificationChildState extends State<NotificationChild> {
 
     user_id = userinfo['user_id'];
     token = userinfo['token'];
-    var group_id = 'task#1155';
 
     data = {
       "user_id": user_id,
       'token': token,
-      'group_id': group_id,
     };
 
     // await http.post(widget.urlDetail, body: {
@@ -77,13 +77,23 @@ class NotificationChildState extends State<NotificationChild> {
     var extractdata = JSON.jsonDecode(res.body);
 
     List<dynamic> dataChild = extractdata;
+    var col;
+
     for (var i = 0; i < dataChild.length; i++) {
+      if (dataChild[i]['notif_list_type'] == 'private') {
+        col = Colors.orange;
+        group = false;
+      } else {
+        col = Colors.blue;
+        group = true;
+      }
+      ;
       tasks.add(new Task(
         title: dataChild[i]['title'],
-        message: dataChild[i]['body'],
+        // message: dataChild[i]['body'],
         time: dataChild[i]['time'],
-        color: Colors.orange,
-        comment: false,
+        color: col,
+        group: group,
         href: dataChild[i]['detail_url'],
       ));
       // }
@@ -95,7 +105,7 @@ class NotificationChildState extends State<NotificationChild> {
     //   message: "body Child",
     //   time: "20 Februari 2021, 12:02:39",
     //   color: Colors.orange,
-    //   comment: false,
+    //   group: false,
     //   href:
     //       "https:\/\/go.payrightsystem.com\/employeeproject?project_detail=4CJT8-2kF1tJm6VE%3E",
     // ));
@@ -108,7 +118,7 @@ class NotificationChildState extends State<NotificationChild> {
     //           " " +
     //           getNotification[i]['jam'].toString(),
     //       color: Colors.orange,
-    //       comment: false,
+    //       group: false,
     //       href: getNotification[i]['href'].toString(),
     //     )
     //   );
@@ -128,11 +138,11 @@ class NotificationChildState extends State<NotificationChild> {
                 return Stack(
                   children: <Widget>[
                     _buildTimeline(),
-                    _buildIamge(),
+                    _buildImage(),
                     _buildTopHeader(),
                     _buildProfileRow(),
                     _buildBottomPart(),
-                    _buildFab(),
+                    // _buildFab(),
                   ],
                 );
               } else {
@@ -151,9 +161,9 @@ class NotificationChildState extends State<NotificationChild> {
   }
 
   void _changeFilterState() {
-    showOnlyComment = !showOnlyComment;
-    tasks.where((task) => !task.comment).forEach((task) {
-      if (showOnlyComment) {
+    showOnlyGroup = !showOnlyGroup;
+    tasks.where((task) => !task.group).forEach((task) {
+      if (showOnlyGroup) {
         listModel.removeAt(listModel.indexOf(task));
       } else {
         listModel.insert(tasks.indexOf(task), task);
@@ -161,7 +171,7 @@ class NotificationChildState extends State<NotificationChild> {
     });
   }
 
-  Widget _buildIamge() {
+  Widget _buildImage() {
     return new Positioned.fill(
       bottom: null,
       child: new ClipPath(
@@ -187,7 +197,7 @@ class NotificationChildState extends State<NotificationChild> {
             child: new Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: new Text(
-                "Detail Group Task",
+                "Detail Notification",
                 style: new TextStyle(
                     fontSize: 20.0,
                     color: Colors.white,
@@ -336,7 +346,7 @@ class NotificationChildState extends State<NotificationChild> {
     //         category: getNotif[i]['kategori'],
     //         time: getNotif[i]['jam'],
     //         color: Colors.orange,
-    //         comment: false),
+    //         group: false),
     //   );
     // }
 

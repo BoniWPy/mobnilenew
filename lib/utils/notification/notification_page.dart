@@ -24,56 +24,12 @@ class _notificationPageState extends State<notificationPage> {
       new GlobalKey<AnimatedListState>();
   final double _imageHeight = 256.0;
   ListModel listModel;
-  bool showOnlyComment = false;
+  bool showOnlyGroup = false;
 
   var thisdate = DateTime.now();
   var dateFormat = DateFormat();
 
-  // List<Task> tasks = [
-  //   new Task(
-  //       title: "Reminder for Upcoming Closing Date",
-  //       message: "Tutup buku periode :string :date -",
-  //       time: "08:55",
-  //       color: Colors.orange,
-  //       comment: false),
-  //   new Task(
-  //       title: "Irvandy Goutama completed this task",
-  //       message: "Project Notification",
-  //       time: "09:16",
-  //       color: Colors.cyan,
-  //       comment: true),
-  //   new Task(
-  //       title: "Reminder for Upcoming Closing Date",
-  //       message: "Tutup buku periode :string :date -",
-  //       time: "13:55",
-  //       color: Colors.orange,
-  //       comment: false),
-  //   new Task(
-  //       title: "Irvandy Goutama completed this task",
-  //       message: "Project Notification",
-  //       time: "14:16",
-  //       color: Colors.cyan,
-  //       comment: true),
-  //   new Task(
-  //       title: "Reminder for Upcoming Closing Date",
-  //       message: "Tutup buku periode :string :date -",
-  //       time: "15:55",
-  //       color: Colors.orange,
-  //       comment: false),
-  //   new Task(
-  //       title: "Irvandy Goutama completed this task",
-  //       message: "Project Notification",
-  //       time: "19:16",
-  //       color: Colors.cyan,
-  //       comment: true),
-  // ];
   List<Task> tasks = [];
-  // initializeDateFormatting('id');
-  // print(DateFormat().format(now)); // This will return date using the default locale
-
-  // print(DateFormat.yMMMMd().format(now)); // print long date
-  // print(DateFormat.yMd().format(now)); // print short date
-  // print(DateFormat.jms().format(now)); // print time v
 
   var userinfo, company_name, name;
   var databaseHelper = new DatabaseHelper();
@@ -91,27 +47,30 @@ class _notificationPageState extends State<notificationPage> {
     var getNotification = await dbClient
         .rawQuery('select * from notifikasi order by tanggal desc, jam desc');
 
-    // String _id_content;
-    // String _title;
-    // String _body;
-    // String _tanggal;
-    // String _jam;
-    // String _jenis_notifikasi;
-    // String _status;
-    // String _group;
-    // String _click_action;
-
     for (var i = 0; i < getNotification.length; i++) {
+      var col;
+      var group;
+
+      if (getNotification[i]['jenis_notifikasi'].toString() == 'private') {
+        col = Colors.orange;
+        group = false;
+      } else {
+        col = Colors.blue;
+        group = true;
+      }
+      ;
+
       tasks.add(
         new Task(
           title: getNotification[i]['title'].toString(),
-          message: getNotification[i]['body'].toString(),
+          // message: getNotification[i]['body'].toString(),
           time: getNotification[i]['tanggal'].toString() +
               " " +
               getNotification[i]['jam'].toString(),
-          color: Colors.orange,
-          comment: false,
+          color: col,
+          group: group,
           href: getNotification[i]['href'].toString(),
+          group_id: getNotification[i]['group_id'].toString(),
         ),
       );
     }
@@ -153,9 +112,9 @@ class _notificationPageState extends State<notificationPage> {
   }
 
   void _changeFilterState() {
-    showOnlyComment = !showOnlyComment;
-    tasks.where((task) => !task.comment).forEach((task) {
-      if (showOnlyComment) {
+    showOnlyGroup = !showOnlyGroup;
+    tasks.where((task) => !task.group).forEach((task) {
+      if (showOnlyGroup) {
         listModel.removeAt(listModel.indexOf(task));
       } else {
         listModel.insert(tasks.indexOf(task), task);
@@ -324,21 +283,6 @@ class _notificationPageState extends State<notificationPage> {
     company_name = userinfo['company_name'];
     name = userinfo['name'];
     print('postrekuest beraksi');
-    // var dbClient = await databaseHelper.db;
-
-    // var getNotif = await dbClient
-    //     .rawQuery('select * from notifikasi order by tanggal desc, jam desc');
-
-    // for (var i = 0; i < getNotif.lenght; i++) {
-    //   tasks.add(
-    //     Task(
-    //         name: getNotif[i]['nama'],
-    //         category: getNotif[i]['kategori'],
-    //         time: getNotif[i]['jam'],
-    //         color: Colors.orange,
-    //         comment: false),
-    //   );
-    // }
 
     return 'ada data';
   }
