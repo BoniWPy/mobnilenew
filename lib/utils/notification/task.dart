@@ -8,6 +8,7 @@ class Task {
   final bool group;
   final String href;
   final String group_id;
+  final String jenis_notifikasi;
 
   Task(
       {this.title,
@@ -15,5 +16,6 @@ class Task {
       this.color,
       this.group,
       this.href,
-      this.group_id});
+      this.group_id,
+      this.jenis_notifikasi});
 }

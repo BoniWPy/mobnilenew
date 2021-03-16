@@ -62,17 +62,19 @@ class _notificationPageState extends State<notificationPage> {
 
       tasks.add(
         new Task(
-          title: getNotification[i]['title'].toString(),
-          // message: getNotification[i]['body'].toString(),
-          time: getNotification[i]['tanggal'].toString() +
-              " " +
-              getNotification[i]['jam'].toString(),
-          color: col,
-          group: group,
-          href: getNotification[i]['href'].toString(),
-          group_id: getNotification[i]['group_id'].toString(),
-        ),
+            title: getNotification[i]['title'].toString(),
+            // message: getNotification[i]['body'].toString(),
+            time: getNotification[i]['tanggal'].toString() +
+                " " +
+                getNotification[i]['jam'].toString(),
+            color: col,
+            group: group,
+            href: getNotification[i]['href'].toString(),
+            group_id: getNotification[i]['group_id'].toString(),
+            jenis_notifikasi:
+                getNotification[i]['jenis_notifikasi'].toString()),
       );
+      print("jenis notif " + getNotification[i]['jenis_notifikasi'].toString());
     }
     listModel = new ListModel(_listKey, tasks);
 

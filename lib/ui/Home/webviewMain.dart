@@ -41,30 +41,6 @@ import 'package:new_payrightsystem/ui/checkinout/checkIn.dart';
 import 'package:new_payrightsystem/ui/checkinout/checkOut.dart';
 
 import 'package:flash/flash.dart';
-// import 'package:overlay_support/overlay_support.dart';
-
-// import 'package:another_flushbar/flushbar.dart';
-// import 'package:another_flushbar/flushbar_helper.dart';
-// import 'package:another_flushbar/flushbar_route.dart';
-// import 'package:another_flushbar/main.dart';
-
-// import 'package:new_payrightsystem/utils/notification/notification_page.dart';
-// import 'package:new_payrightsystem/ui/checkinout/checkIn.dart';
-// import 'package:new_payrightsystem/ui/Home/sampleList.dart';
-// import 'package:new_payrightsystem/utils/toggle_shared.dart';
-// import 'package:new_payrightsystem/utils/notification_page.dart';
-// import 'package:new_payrightsystem/utils/shared_preferences.dart';
-// import 'package:new_payrightsystem/utils/push_notifications.dart';
-// import 'package:new_payrightsystem/utils/customColors.dart';
-// import 'package:new_payrightsystem/utils/shared_preferences.dart';
-// import 'package:new_payrightsystem/utils/slide.dart';
-// import 'package:new_payrightsystem/utils/fab.dart';
-// import 'package:new_payrightsystem/utils/appBars.dart';
-// import 'package:new_payrightsystem/utils/config.dart';
-// import 'package:progress_dialog/progress_dialog.dart';
-// import 'package:new_payrightsystem/utils/api/api.dart';
-// import 'package:new_payrightsystem/ui/Home/notificationList.dart';
-// import 'package:new_payrightsystem/ui/checkinout/webview/employeeDashboard.dart';
 
 // ignore: must_be_immutable
 class InAppWebViewExampleScreen extends StatefulWidget {
@@ -156,13 +132,25 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
       valueListenable: notificationCounterValueNotifer,
     );
 
-    var initializationSettingsAndroid =
-        new AndroidInitializationSettings('logo');
-
     var initializationSettings = new InitializationSettings();
 
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: onSelectNotification);
+
+    Future displayNotification(Map<String, dynamic> message) async {
+      var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+          'PAYRIGHT', 'PAYRIGHT', 'your channel description');
+      var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+      var platformChannelSpecifics = new NotificationDetails();
+
+      await flutterLocalNotificationsPlugin.show(
+        0,
+        message['notification']['title'],
+        message['notification']['body'],
+        platformChannelSpecifics,
+        payload: 'hello',
+      );
+    }
 
     _firebaseMessaging.configure(
       // ignore: missing_return
@@ -186,37 +174,16 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
           jenis_notifikasi = 'group';
         }
 
+        print(dataContent);
+        print('isi data contact');
         var group_id = dataContent['notification_group'];
         var group_name = dataContent['notification_group'];
         var click_action = dataContent['click_action'];
         var href = dataContent['href_notification'];
         var param = dataContent['parameters'];
-        // print('d');
-        // print(message['data']['href_notification'].toString());
-        // print('c');
-        // print(isidata['href_location']);
-        // print('$href_notification, $notification_group, $click_action');
-        // print('wikwik');
-
-        // Map<String, dynamic> arrayData = message["data"];
-        // print('1');
-        // print(arrayData['data']['href_notification']);
-
-        // map["id_content"] = this._id_content;
-        // map["title"] = this._title;
-        // map["body"] = this._body;
-        // map["tanggal"] = this._tanggal;
-        // map["jam"] = this._jam;
-        // map["jenis_notifikasi"] = this._jenis_notifikasi;
-        // map["status"] = this._status;
-        // map["group_id"] = this._group_id;
-        // map["group_name"] = this._group_id;
-        // map["click_action"] = this._click_action;
-        // map["parameters"] = this._parameters;
 
         var dataNotifikasi = new NotifikasiModel(
             "1", // id data ( absen, pengumuman, dan lain lain )
-
             message['notification']['title'].toString(),
             message['notification']['body'].toString(),
             tanggal.toString(),
@@ -232,17 +199,15 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         databaseHelper.saveNotification(dataNotifikasi);
 
         print('database ke save');
-        _showBottomFlash(
-          message['notification']['title'].toString(),
-          message['notification']['body'].toString(),
-        );
 
-        // _showBasicsFlash();
-        //_showBasicsFlash();
-        //showNotifUper();
+        //notif toast
+        var pesan = message['notification']['body'].toString();
+        showInfo(context, pesan);
 
-        // print('isi pesan nya on message ssssss ' +
-        //     message['notification']['title'].toString());
+        // _showBottomFlash(
+        //   message['notification']['title'].toString(),
+        //   message['notification']['body'].toString(),
+        // );
 
         // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
         displayNotification(message);
@@ -250,29 +215,6 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         notificationCounterValueNotifer.value++;
         notificationCounterValueNotifer
             .notifyListeners(); // notify listeners here so ValueListenableBuilder will build the widget.
-
-        // showDefaultSnackbar(context);
-
-        // Alert(
-        //   context: context,
-        //   style: alertStyle,
-        //   title: message['notification']['body'],
-        //   image: Image.asset("assets/img/new_notification.png"),
-        //   buttons: [
-        //     DialogButton(
-        //       child: Text(
-        //         message['notification']['title'],
-        //         style: TextStyle(
-        //             color: Colors.white, fontSize: 14, fontFamily: "Poppins"),
-        //       ),
-        //       onPressed: () => Navigator.of(context, rootNavigator: true).pop(),
-        //       // color: Color.fromRGBO(0, 179, 134, 1.0),
-        //       color: Colors.blue[300],
-        //       radius: BorderRadius.circular(20.0),
-        //     ),
-        //   ],
-        // ).show();
-        // _showItemDialog(message);
       },
       onBackgroundMessage: myBackgroundMessageHandler,
       // onResume: (Map<String, dynamic> message) async {
@@ -281,7 +223,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
       onResume: (Map<String, dynamic> message) async {
         print('on resume $message');
-        print('ada pesan di background');
+        print('BACKGROUND');
 
         DateTime now = DateTime.now();
         DateFormat formatTanggal = DateFormat('yyyy-MM-dd');
@@ -361,21 +303,6 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         .rawQuery('select * from notifikasi order by tanggal desc, jam desc');
     print('isi db nya');
     print(isidb);
-  }
-
-  Future displayNotification(Map<String, dynamic> message) async {
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'Payrightsystem', 'Payrightsystem', 'your channel description');
-    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-    var platformChannelSpecifics = new NotificationDetails();
-
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      message['notification']['title'],
-      message['notification']['body'],
-      platformChannelSpecifics,
-      payload: 'hello',
-    );
   }
 
   Future onSelectNotification(String payload) async {
@@ -1178,8 +1105,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
     // EdgeInsets margin = EdgeInsets.zero;
     Duration duration;
     print('dalam botom flash');
-    print(title);
-    print(pesan);
+
     showFlash(
       context: context,
       duration: duration,
@@ -1206,65 +1132,83 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
                 )));
       },
     );
-    // showFlash(
-    //   context: context,
-    //   persistent: persistent,
-    //   builder: (_, controller) {
-    //     return Flash(
-    //       controller: controller,
-    //       // margin: margin,
-    //       style: FlashStyle.floating,
-    //       borderRadius: BorderRadius.circular(8.0),
-    //       borderColor: Colors.grey,
-    //       boxShadows: kElevationToShadow[8],
-    //       backgroundGradient: RadialGradient(
-    //         // colors: [Colors.amber, Colors.black87],
-    //         colors: [Colors.blue[100], Colors.blue[200]],
-    //         center: Alignment.topLeft,
-    //         radius: 2,
-    //       ),
-    //       onTap: () => controller.dismiss(),
-    //       forwardAnimationCurve: Curves.easeInCirc,
-    //       reverseAnimationCurve: Curves.bounceIn,
-    //       child: DefaultTextStyle(
-    //         style: TextStyle(
-    //             color: Colors.white, fontSize: 14, fontFamily: "Poppins"),
-    // child: FlashBar(
-    //   title: Text(title),
-    //   message: Text('Ahmad Arifin Mengundang Anda'),
-    //   leftBarIndicatorColor: Colors.grey,
-    //   icon: Icon(Icons.notifications),
-    //   primaryAction: FlatButton(
-    //     onPressed: () => controller.dismiss(),
-    //     child: Text(
-    //       'Lihat Notifikasi',
-    //       style: TextStyle(
-    //           color: Colors.white70,
-    //           fontSize: 12,
-    //           fontFamily: "Poppins"),
-    //     ),
-    //   ),
-    //           actions: <Widget>[
-    //             FlatButton(
-    //                 onPressed: () => controller
-    //                     .dismiss('Anda akan di arahkan ke page notifikasi'),
-    //                 child: Text('Lihat')),
-    //             FlatButton(
-    //                 onPressed: () => controller
-    //                     .dismiss('Anda Bisa Melihat History Notifikasi Nanti'),
-    //                 child: Text('Abaikan')),
-    //           ],
-    //         ),
-    //       ),
-    //     );
-    //   },
-    // ).then((_) {
-    //   if (_ != null) {
-    //     _showMessage(_.toString());
-    //     print('masuk ke error');
-    //   }
-    // });
+
     print('masuk pa eko Flash');
+  }
+
+  //toast
+
+  void showInfo(BuildContext context, String message,
+      {bool shouldDismiss = true}) {
+    Timer.run(() => _showAlert(context, message, Color(0xFFE7EDFB),
+        Icons.notifications, Color.fromRGBO(54, 105, 214, 1), shouldDismiss));
+  }
+
+  void showError(BuildContext context, String message,
+      {bool shouldDismiss = true}) {
+    Timer.run(() => _showAlert(context, message, Color(0xFFFDE2E1),
+        Icons.error_outline, Colors.red, shouldDismiss));
+  }
+
+  void _showAlert(BuildContext context, String message, Color color,
+      IconData icon, Color iconColor, bool shouldDismiss) {
+    showGeneralDialog(
+        context: context,
+        barrierDismissible: false,
+        barrierLabel:
+            MaterialLocalizations.of(context).modalBarrierDismissLabel,
+        transitionDuration: const Duration(milliseconds: 200),
+        pageBuilder: (BuildContext buildContext, Animation animation,
+            Animation secondaryAnimation) {
+          if (shouldDismiss) {
+            Future.delayed(const Duration(seconds: 4), () {
+              Navigator.of(context, rootNavigator: true).pop(true);
+            });
+          }
+          return Material(
+            type: MaterialType.transparency,
+            child: WillPopScope(
+              onWillPop: () async => false,
+              child: Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Container(
+                      decoration: BoxDecoration(
+                          shape: BoxShape.rectangle,
+                          borderRadius: const BorderRadius.vertical(
+                              top: Radius.circular(10),
+                              bottom: Radius.circular(10)),
+                          color: color),
+                      width: MediaQuery.of(context).size.width - 40,
+                      height: MediaQuery.of(context).size.height / 9,
+                      padding: const EdgeInsets.all(5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                          Icon(
+                            icon,
+                            size: 30,
+                            color: iconColor,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Flexible(
+                            child: Text(
+                              message,
+                              style: TextStyle(
+                                  decoration: TextDecoration.none,
+                                  color: Colors.black),
+                            ),
+                          )
+                        ],
+                      )),
+                ),
+              ),
+            ),
+          );
+        });
   }
 
   void _showMessage(String message) {
@@ -1288,60 +1232,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
           );
         });
   }
-
-  // void showNotifUper() {
-  //   showSimpleNotification(
-  //     Text('isi pesan'),
-  //     background: Colors.grey,
-  //   );
-  // }
 }
 
-// void showInfoFlushbar(BuildContext context) {
-//   Flushbar(
-//     title: 'This action is prohibited',
-//     message: 'Lorem ipsum dolor sit amet',
-//     icon: Icon(
-//       Icons.info_outline,
-//       size: 28,
-//       color: Colors.blue.shade300,
-//     ),
-//     leftBarIndicatorColor: Colors.blue.shade300,
-//     duration: Duration(seconds: 3),
-//   )..show(context);
-// }
-// //var for get the notification from tables
-// getNotification() async {
-//   print('akui di panggil : getnotificaiton');
-
-//   var dbClient = await databaseHelper.db;
-//   List<Map> listNotifikasi = await dbClient.rawQuery(
-//       "SELECT * FROM notifikasi where status ='unread' order by tanggal desc, jam desc");
-//   for (var i = 0; i < listNotifikasi.length; i++) {
-//     myListNotif
-//         .add(listNotifikasi[i]['title'] + " : " + listNotifikasi[i]['body']);
-//   }
-//   var gemessage = await dbClient
-//       .rawQuery('select * from notifikasi order by tanggal desc, jam desc');
-//   print(' "gemessage =>",$gemessage');
-//   return myListNotif;
-// }
-
-// //var for get the list notification from the list
-// List<Widget> getMyList() {
-//   getNotification();
-//   var totalPesan = myListNotif.length;
-//   print("'total list di getmylist => ', $totalPesan");
-
-//   return myListNotif.map((x) {
-//     return Padding(
-//       padding: EdgeInsets.all(10.0),
-//       child: Column(children: <Widget>[
-//         Icon(Icons.notifications, color: Colors.grey),
-//         Text(x)
-//       ]),
-//     );
-//   }).toList();
-// }
-Future<dynamic> myBackgroundMessageHandler(
-    Map<String, dynamic> message) async {}
+Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
+  print('handle');
+}

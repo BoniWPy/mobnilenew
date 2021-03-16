@@ -34,7 +34,7 @@ class NotificationChildState extends State<NotificationChild> {
   final double _imageHeight = 256.0;
   ListModel listModel;
   bool showOnlyGroup = false;
-  bool group;
+  bool group, clickable;
 
   var thisdate = DateTime.now();
   var dateFormat = DateFormat();
@@ -58,10 +58,8 @@ class NotificationChildState extends State<NotificationChild> {
     user_id = userinfo['user_id'];
     token = userinfo['token'];
 
-    data = {
-      "user_id": user_id,
-      'token': token,
-    };
+    data = {"user_id": user_id, 'token': token, 'group_id': widget.group_id};
+    print('datanya => ,$data');
 
     // await http.post(widget.urlDetail, body: {
     //   "user_id": user_id,
@@ -88,6 +86,7 @@ class NotificationChildState extends State<NotificationChild> {
         group = true;
       }
       ;
+
       tasks.add(new Task(
         title: dataChild[i]['title'],
         // message: dataChild[i]['body'],
@@ -333,22 +332,6 @@ class NotificationChildState extends State<NotificationChild> {
     name = userinfo['name'];
     user_id = userinfo['user_id'];
     token = userinfo['token'];
-    print('postrekuest beraksi');
-    // var dbClient = await databaseHelper.db;
-
-    // var getNotif = await dbClient
-    //     .rawQuery('select * from notifikasi order by tanggal desc, jam desc');
-
-    // for (var i = 0; i < getNotif.lenght; i++) {
-    //   tasks.add(
-    //     Task(
-    //         name: getNotif[i]['nama'],
-    //         category: getNotif[i]['kategori'],
-    //         time: getNotif[i]['jam'],
-    //         color: Colors.orange,
-    //         group: false),
-    //   );
-    // }
 
     return 'ada data';
   }

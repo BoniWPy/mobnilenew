@@ -58,6 +58,9 @@ class TaskRow extends StatelessWidget {
               ),
             ),
             onTap: () {
+              print(task.jenis_notifikasi);
+              print('yang diatas asalah jenis notifikasinya');
+
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (_) => NotificationChild(task.href, task.group_id)));
               // Navigator.of(context).push(MaterialPageRoute(
