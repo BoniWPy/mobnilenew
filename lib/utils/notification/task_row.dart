@@ -39,11 +39,11 @@ class TaskRow extends StatelessWidget {
                           task.title,
                           style: new TextStyle(fontSize: 18.0),
                         ),
-                        // new Text(
-                        //   task.message,
-                        //   style:
-                        //       new TextStyle(fontSize: 12.0, color: Colors.grey),
-                        // )
+                        new Text(
+                          task.message,
+                          style:
+                              new TextStyle(fontSize: 12.0, color: Colors.grey),
+                        )
                       ],
                     ),
                   ),
@@ -58,11 +58,20 @@ class TaskRow extends StatelessWidget {
               ),
             ),
             onTap: () {
-              print(task.jenis_notifikasi);
-              print('yang diatas asalah jenis notifikasinya');
-
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => NotificationChild(task.href, task.group_id)));
+              print('ini di tap gais');
+              print(task.group);
+              print('lanjut kemana gais');
+              print(task.href);
+              if (!task.group) {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => InAppWebViewExampleScreen(task.href)));
+              } else {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) =>
+                        NotificationChild(task.href, task.group_id)));
+              }
+              // Navigator.of(context).push(MaterialPageRoute(
+              //     builder: (_) => NotificationChild(task.href, task.group_id)));
               // Navigator.of(context).push(MaterialPageRoute(
               //     builder: (_) => InAppWebViewExampleScreen(task.href)));
             },

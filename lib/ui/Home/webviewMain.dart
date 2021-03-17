@@ -117,6 +117,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
     _state = SSBottomBarState();
     super.initState();
     controller = AdvFabController();
+    pr.hide();
 
     //read db
     queryDB();
@@ -482,20 +483,20 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
             animationCurve: Curves.easeInOut,
             // onDisplayChange: print('print'),
             children: <Widget>[
-              fabsinglemenuAbsenMasuk(() {
+              fabsinglemenuAbsenKeluar(() {
                 //set action for this menu
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => ScanScreenIn()));
+                    .push(MaterialPageRoute(builder: (_) => ScanScreenOut()));
               }),
               fabsinglemenuSimpanLokasi(() {
                 //set action for this menu
                 Navigator.of(context)
                     .push(MaterialPageRoute(builder: (_) => SimpanLokasi()));
               }),
-              fabsinglemenuAbsenKeluar(() {
+              fabsinglemenuAbsenMasuk(() {
                 //set action for this menu
                 Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => ScanScreenOut()));
+                    .push(MaterialPageRoute(builder: (_) => ScanScreenIn()));
               }),
             ]), //FAB circular Menu
 

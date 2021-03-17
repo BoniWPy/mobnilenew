@@ -34,13 +34,14 @@ class NotificationChildState extends State<NotificationChild> {
   final double _imageHeight = 256.0;
   ListModel listModel;
   bool showOnlyGroup = false;
-  bool group, clickable;
+  bool group;
 
   var thisdate = DateTime.now();
   var dateFormat = DateFormat();
   List<Task> tasks = [];
 
-  var userinfo, company_name, name, user_id, token, data;
+  var userinfo, company_name, name, user_id, token, data, jenis_notifikasi;
+  // group_id;
   var databaseHelper = new DatabaseHelper();
 
   @override
@@ -58,8 +59,11 @@ class NotificationChildState extends State<NotificationChild> {
     user_id = userinfo['user_id'];
     token = userinfo['token'];
 
-    data = {"user_id": user_id, 'token': token, 'group_id': widget.group_id};
-    print('datanya => ,$data');
+    data = {
+      "user_id": user_id,
+      'token': token,
+      'group_id': widget.group_id,
+    };
 
     // await http.post(widget.urlDetail, body: {
     //   "user_id": user_id,
@@ -67,7 +71,7 @@ class NotificationChildState extends State<NotificationChild> {
     // })
 
     // await http
-    // .post("https://api.payright.dev/v1/auth/cekNotif")
+    // .post("https://api.new_payrightsystem.dev/v1/auth/cekNotif")
     // .then((response) async {
     var res = await CallApi().getDetailNotification(data, 'detailnotif');
     var body = json.decode(res.body);
@@ -81,19 +85,21 @@ class NotificationChildState extends State<NotificationChild> {
       if (dataChild[i]['notif_list_type'] == 'private') {
         col = Colors.orange;
         group = false;
+        jenis_notifikasi = 'private';
       } else {
         col = Colors.blue;
         group = true;
+        jenis_notifikasi = 'group';
       }
       ;
-
       tasks.add(new Task(
         title: dataChild[i]['title'],
-        // message: dataChild[i]['body'],
+        message: dataChild[i]['body'],
         time: dataChild[i]['time'],
         color: col,
         group: group,
         href: dataChild[i]['detail_url'],
+        jenis_notifikasi: jenis_notifikasi,
       ));
       // }
     }
@@ -191,12 +197,16 @@ class NotificationChildState extends State<NotificationChild> {
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
       child: new Row(
         children: <Widget>[
-          new Icon(Icons.menu, size: 32.0, color: Colors.white),
+          // new Icon(Icons.menu, size: 32.0, color: Colors.white),
+          IconButton(
+            icon: Icon(Icons.arrow_back, size: 32.0, color: Colors.white),
+            onPressed: () => Navigator.pop(context, false),
+          ),
           new Expanded(
             child: new Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: new Text(
-                "Detail Notification",
+                "",
                 style: new TextStyle(
                     fontSize: 20.0,
                     color: Colors.white,
@@ -205,7 +215,6 @@ class NotificationChildState extends State<NotificationChild> {
               ),
             ),
           ),
-          new Icon(Icons.linear_scale, color: Colors.white),
         ],
       ),
     );
@@ -237,7 +246,7 @@ class NotificationChildState extends State<NotificationChild> {
                           name,
                           style: new TextStyle(
                               fontSize: 26.0,
-                              color: Colors.black87,
+                              color: Colors.white,
                               fontFamily: "Poppins",
                               fontWeight: FontWeight.w400),
                         ),
@@ -246,7 +255,7 @@ class NotificationChildState extends State<NotificationChild> {
                           company_name,
                           style: new TextStyle(
                               fontSize: 14.0,
-                              color: Colors.black87,
+                              color: Colors.grey[200],
                               fontFamily: "Poppins",
                               fontWeight: FontWeight.w300),
                         ),
@@ -332,6 +341,22 @@ class NotificationChildState extends State<NotificationChild> {
     name = userinfo['name'];
     user_id = userinfo['user_id'];
     token = userinfo['token'];
+    print('postrekuest beraksi');
+    // var dbClient = await databaseHelper.db;
+
+    // var getNotif = await dbClient
+    //     .rawQuery('select * from notifikasi order by tanggal desc, jam desc');
+
+    // for (var i = 0; i < getNotif.lenght; i++) {
+    //   tasks.add(
+    //     Task(
+    //         name: getNotif[i]['nama'],
+    //         category: getNotif[i]['kategori'],
+    //         time: getNotif[i]['jam'],
+    //         color: Colors.orange,
+    //         group: false),
+    //   );
+    // }
 
     return 'ada data';
   }

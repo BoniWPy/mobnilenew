@@ -62,19 +62,17 @@ class _notificationPageState extends State<notificationPage> {
 
       tasks.add(
         new Task(
-            title: getNotification[i]['title'].toString(),
-            // message: getNotification[i]['body'].toString(),
-            time: getNotification[i]['tanggal'].toString() +
-                " " +
-                getNotification[i]['jam'].toString(),
-            color: col,
-            group: group,
-            href: getNotification[i]['href'].toString(),
-            group_id: getNotification[i]['group_id'].toString(),
-            jenis_notifikasi:
-                getNotification[i]['jenis_notifikasi'].toString()),
+          title: getNotification[i]['title'].toString(),
+          message: getNotification[i]['body'].toString(),
+          time: getNotification[i]['tanggal'].toString() +
+              " " +
+              getNotification[i]['jam'].toString(),
+          color: col,
+          group: group,
+          href: getNotification[i]['href'].toString(),
+          group_id: getNotification[i]['group_id'].toString(),
+        ),
       );
-      print("jenis notif " + getNotification[i]['jenis_notifikasi'].toString());
     }
     listModel = new ListModel(_listKey, tasks);
 
@@ -145,21 +143,24 @@ class _notificationPageState extends State<notificationPage> {
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 32.0),
       child: new Row(
         children: <Widget>[
-          new Icon(Icons.menu, size: 32.0, color: Colors.white),
+          IconButton(
+            icon: Icon(Icons.arrow_back, size: 32.0, color: Colors.grey[300]),
+            onPressed: () => Navigator.pop(context, false),
+          ),
           new Expanded(
             child: new Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: new Text(
-                "Notifikasi",
+                "",
                 style: new TextStyle(
                     fontSize: 20.0,
-                    color: Colors.white,
+                    color: Colors.grey[300],
                     fontFamily: "Poppins",
                     fontWeight: FontWeight.w300),
               ),
             ),
           ),
-          new Icon(Icons.linear_scale, color: Colors.white),
+          // new Icon(Icons.linear_scale, color: Colors.white),
         ],
       ),
     );
@@ -191,7 +192,7 @@ class _notificationPageState extends State<notificationPage> {
                           name,
                           style: new TextStyle(
                               fontSize: 26.0,
-                              color: Colors.black87,
+                              color: Colors.white,
                               fontFamily: "Poppins",
                               fontWeight: FontWeight.w400),
                         ),
@@ -200,7 +201,7 @@ class _notificationPageState extends State<notificationPage> {
                           company_name,
                           style: new TextStyle(
                               fontSize: 14.0,
-                              color: Colors.black87,
+                              color: Colors.grey[200],
                               fontFamily: "Poppins",
                               fontWeight: FontWeight.w300),
                         ),
@@ -251,7 +252,7 @@ class _notificationPageState extends State<notificationPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           new Text(
-            'Notifikasi',
+            '',
             style: new TextStyle(fontSize: 34.0, fontFamily: "Poppins"),
           ),
           // new Text(

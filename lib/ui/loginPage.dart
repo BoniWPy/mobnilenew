@@ -520,7 +520,7 @@ class _LoginPageState extends State<LoginPage>
         //TODO: *rapihinshared = must be more efecient. "write once, used everywhere !!!"
 
         //loading loader
-        //pr.show();
+        pr.show();
 
         Future.delayed(Duration(seconds: 1)).then((onValue) {
           Navigator.push(

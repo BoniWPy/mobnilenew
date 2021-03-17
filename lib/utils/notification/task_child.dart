@@ -39,11 +39,11 @@ class TaskChild extends StatelessWidget {
                           task.title,
                           style: new TextStyle(fontSize: 18.0),
                         ),
-                        // new Text(
-                        //   task.message,
-                        //   style:
-                        //       new TextStyle(fontSize: 12.0, color: Colors.grey),
-                        // )
+                        new Text(
+                          task.message,
+                          style:
+                              new TextStyle(fontSize: 12.0, color: Colors.grey),
+                        )
                       ],
                     ),
                   ),
