@@ -58,8 +58,10 @@ class TaskRow extends StatelessWidget {
               ),
             ),
             onTap: () {
-              print('ini di tap gais');
+              print('apakah ini task group');
               print(task.group);
+              print('group id nya');
+              print(task.group_id);
               print('lanjut kemana gais');
               print(task.href);
               if (!task.group) {

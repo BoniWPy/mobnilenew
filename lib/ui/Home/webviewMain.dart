@@ -41,6 +41,8 @@ import 'package:new_payrightsystem/ui/checkinout/checkIn.dart';
 import 'package:new_payrightsystem/ui/checkinout/checkOut.dart';
 
 import 'package:flash/flash.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:new_payrightsystem/utils/notification/notification_meeting.dart';
 
 // ignore: must_be_immutable
 class InAppWebViewExampleScreen extends StatefulWidget {
@@ -118,6 +120,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
     super.initState();
     controller = AdvFabController();
     pr.hide();
+
+    // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
 
     //read db
     queryDB();
@@ -201,7 +205,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
         print('database ke save');
 
-        //notif toast
+        // notif toast
         var pesan = message['notification']['body'].toString();
         showInfo(context, pesan);
 
@@ -361,6 +365,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool keyboardIsOpen = MediaQuery.of(context).viewInsets.bottom != 0;
     return Scaffold(
         appBar: AppBar(
             centerTitle: true,
@@ -379,7 +384,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => notificationPage()));
+                            // builder: (context) => notificationPage()));
+                            builder: (context) => LoginPage()));
                   }),
               // onPressed: () => showMyDialogNotification(context),
               // ),
@@ -439,66 +445,133 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         //     MaterialPageRoute(builder: (_) => ScanScreenIn()));
         //           })
         //     ]),
-        floatingActionButton: FabCircularMenu(
-            // ringDiameter: MediaQuery.of(context).size.width * 0.75,
-            // ringWidth: MediaQuery.of(context).size.width * 0.75 * 0.3,
-            ringDiameter:
-                MediaQuery.of(context).size.width * 1.80, //ukuran bulatan
-            ringWidth:
-                MediaQuery.of(context).size.width * 1.60 * 0.3, //lebar ring
-            alignment: Alignment.bottomLeft,
-            fabSize: 80.0, //ukuran bulatan float button nya
-            fabElevation: 10.0, //ketinggian dari button float *tdk berguna
-            fabColor: Colors.black, //warna float button *tdk berguna
-            fabMargin: EdgeInsets.only(
-                left: 10,
-                right: 5,
-                bottom: 10), //jarak bulartan kecil ke kanan kiri
-            fabCloseColor: Colors.white, //warna pada saat di tutup
-            fabOpenColor: Colors.white54, //warna pada saat di buka
-            fabOpenIcon: Icon(
-              Icons.fingerprint_outlined,
-              color: Colors.grey,
-              size: 60,
-            ),
-            //           fabOpenIcon:  ImageIcon(
-            //   AssetImage('assets/img/fingerprint.png'),
-            //   size: 12,
-            // ),
-            //     fabOpenIcon: Container(
-            //   child: Image(
-            //     image: AssetImage(
-            //      ' assets/img/fingerprint.png',
-            //     ),
-            //     fit: BoxFit.cover,
-            //   ),
-            //   height: 100,
-            //   width: 100,
-            // ),
 
-            fabCloseIcon:
-                Icon(Icons.close, color: Colors.white), //icon untuk menutup
-            // ringColor: Colors.blue[100],
-            ringColor: Colors.grey[100],
-            animationCurve: Curves.easeInOut,
-            // onDisplayChange: print('print'),
-            children: <Widget>[
-              fabsinglemenuAbsenKeluar(() {
-                //set action for this menu
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => ScanScreenOut()));
-              }),
-              fabsinglemenuSimpanLokasi(() {
-                //set action for this menu
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => SimpanLokasi()));
-              }),
-              fabsinglemenuAbsenMasuk(() {
-                //set action for this menu
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => ScanScreenIn()));
-              }),
-            ]), //FAB circular Menu
+        //start edit visible
+        floatingActionButton: Visibility(
+          visible: !keyboardIsOpen,
+          child: FabCircularMenu(
+              // ringDiameter: MediaQuery.of(context).size.width * 0.75,
+              // ringWidth: MediaQuery.of(context).size.width * 0.75 * 0.3,
+              ringDiameter:
+                  MediaQuery.of(context).size.width * 1.80, //ukuran bulatan
+              ringWidth:
+                  MediaQuery.of(context).size.width * 1.60 * 0.3, //lebar ring
+              alignment: Alignment.bottomLeft,
+              fabSize: 80.0, //ukuran bulatan float button nya
+              fabElevation: 10.0, //ketinggian dari button float *tdk berguna
+              fabColor: Colors.black, //warna float button *tdk berguna
+              fabMargin: EdgeInsets.only(
+                  left: 10,
+                  right: 5,
+                  bottom: 10), //jarak bulartan kecil ke kanan kiri
+              fabCloseColor: Colors.white, //warna pada saat di tutup
+              fabOpenColor: Colors.white54, //warna pada saat di buka
+              fabOpenIcon: Icon(
+                Icons.fingerprint_outlined,
+                color: Colors.grey,
+                size: 60,
+              ),
+              //           fabOpenIcon:  ImageIcon(
+              //   AssetImage('assets/img/fingerprint.png'),
+              //   size: 12,
+              // ),
+              //     fabOpenIcon: Container(
+              //   child: Image(
+              //     image: AssetImage(
+              //      ' assets/img/fingerprint.png',
+              //     ),
+              //     fit: BoxFit.cover,
+              //   ),
+              //   height: 100,
+              //   width: 100,
+              // ),
+
+              fabCloseIcon:
+                  Icon(Icons.close, color: Colors.white), //icon untuk menutup
+              // ringColor: Colors.blue[100],
+              ringColor: Colors.grey[100],
+              animationCurve: Curves.easeInOut,
+              // onDisplayChange: print('print'),
+              children: <Widget>[
+                fabsinglemenuAbsenKeluar(() {
+                  //set action for this menu
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => ScanScreenOut()));
+                }),
+                fabsinglemenuSimpanLokasi(() {
+                  //set action for this menu
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => SimpanLokasi()));
+                }),
+                fabsinglemenuAbsenMasuk(() {
+                  //set action for this menu
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (_) => ScanScreenIn()));
+                }),
+              ]), //FAB circular Menu
+        ),
+
+        //end edit visible
+        // floatingActionButton: FabCircularMenu(
+        //     // ringDiameter: MediaQuery.of(context).size.width * 0.75,
+        //     // ringWidth: MediaQuery.of(context).size.width * 0.75 * 0.3,
+        //     ringDiameter:
+        //         MediaQuery.of(context).size.width * 1.80, //ukuran bulatan
+        //     ringWidth:
+        //         MediaQuery.of(context).size.width * 1.60 * 0.3, //lebar ring
+        //     alignment: Alignment.bottomLeft,
+        //     fabSize: 80.0, //ukuran bulatan float button nya
+        //     fabElevation: 10.0, //ketinggian dari button float *tdk berguna
+        //     fabColor: Colors.black, //warna float button *tdk berguna
+        //     fabMargin: EdgeInsets.only(
+        //         left: 10,
+        //         right: 5,
+        //         bottom: 10), //jarak bulartan kecil ke kanan kiri
+        //     fabCloseColor: Colors.white, //warna pada saat di tutup
+        //     fabOpenColor: Colors.white54, //warna pada saat di buka
+        //     fabOpenIcon: Icon(
+        //       Icons.fingerprint_outlined,
+        //       color: Colors.grey,
+        //       size: 60,
+        //     ),
+        //     //           fabOpenIcon:  ImageIcon(
+        //     //   AssetImage('assets/img/fingerprint.png'),
+        //     //   size: 12,
+        //     // ),
+        //     //     fabOpenIcon: Container(
+        //     //   child: Image(
+        //     //     image: AssetImage(
+        //     //      ' assets/img/fingerprint.png',
+        //     //     ),
+        //     //     fit: BoxFit.cover,
+        //     //   ),
+        //     //   height: 100,
+        //     //   width: 100,
+        //     // ),
+
+        //     fabCloseIcon:
+        //         Icon(Icons.close, color: Colors.white), //icon untuk menutup
+        //     // ringColor: Colors.blue[100],
+        //     ringColor: Colors.grey[100],
+        //     animationCurve: Curves.easeInOut,
+        //     // onDisplayChange: print('print'),
+        //     children: <Widget>[
+        //       fabsinglemenuAbsenKeluar(() {
+        //         //set action for this menu
+        //         Navigator.of(context)
+        //             .push(MaterialPageRoute(builder: (_) => ScanScreenOut()));
+        //       }),
+        //       fabsinglemenuSimpanLokasi(() {
+        //         //set action for this menu
+        //         Navigator.of(context)
+        //             .push(MaterialPageRoute(builder: (_) => SimpanLokasi()));
+        //       }),
+        //       fabsinglemenuAbsenMasuk(() {
+        //         //set action for this menu
+        //         Navigator.of(context)
+        //             .push(MaterialPageRoute(builder: (_) => ScanScreenIn()));
+        //       }),
+        //     ]), //FAB circular Menu
 
         // floatingActionButton: FloatingActionButton(
         //   child: Icon(
@@ -548,6 +621,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
                           clearSessionCache:
                           false;
                           webView = controller;
+                          withLocalStorage:
+                          true;
                         },
                         onLoadError: (InAppWebViewController controller,
                             String url, int i, String s) async {
@@ -614,7 +689,12 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
                                 context,
                                 new MaterialPageRoute(
                                     builder: (context) =>
-                                        dashboard(true, true)));
+                                        InAppWebViewExampleScreen(widget
+                                                    .clickToAction ==
+                                                ""
+                                            ? "https://go.payrightsystem.com/v1/api/webviewlogin?jwt=$jwt"
+                                            : widget.clickToAction)));
+                            print('reload lagi');
                           }
                           ;
                         },
@@ -1162,7 +1242,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         pageBuilder: (BuildContext buildContext, Animation animation,
             Animation secondaryAnimation) {
           if (shouldDismiss) {
-            Future.delayed(const Duration(seconds: 4), () {
+            Future.delayed(const Duration(milliseconds: 1000), () {
               Navigator.of(context, rootNavigator: true).pop(true);
             });
           }

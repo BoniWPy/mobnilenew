@@ -47,7 +47,7 @@ class NotificationChildState extends State<NotificationChild> {
   @override
   void initState() {
     super.initState();
-
+    print('halo');
     // postRequest();
   }
 
