@@ -30,6 +30,8 @@ import 'package:overlay_support/overlay_support.dart';
 //import 'package:trust_fall/trust_fall.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(new MyApp());
 }
 // void main() =>

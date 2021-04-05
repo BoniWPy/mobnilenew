@@ -17,6 +17,8 @@ import 'package:provider/provider.dart';
 import 'package:ss_bottom_navbar/ss_bottom_navbar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:new_payrightsystem/utils/shared_preferences.dart';
+import 'package:new_payrightsystem/utils/navigationService.dart';
+
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -24,7 +26,8 @@ import 'package:http/http.dart';
 import 'package:progress_dialog/progress_dialog.dart';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:firebase_core/firebase_core.dart';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
@@ -44,6 +47,45 @@ import 'package:flash/flash.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:new_payrightsystem/utils/notification/notification_meeting.dart';
 
+Future<dynamic> backGroundHandler(Map<String, dynamic> message) async {
+  print("masuk background");
+  _InAppWebViewExampleScreenState notificationClass =
+      new _InAppWebViewExampleScreenState();
+  notificationClass.showNotifBackground(message);
+}
+
+void _getDataFcm(Map<String, dynamic> message) {
+  var title = '-';
+  var content = '-';
+  if (Platform.isIOS) {
+    title = message['title'];
+    content = message['content'];
+  } else {
+    title = message['data']['title'];
+    content = message['data']['content'];
+  }
+  // _showLocalNotification(title, content);
+}
+
+void _showLocalNotification(String title, String content) {
+  var initializationSettingsAndroid = AndroidInitializationSettings('logo');
+  var initializationSettingsIOS = IOSInitializationSettings();
+  var initializationSettings = InitializationSettings();
+  var flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+  flutterLocalNotificationsPlugin.initialize(initializationSettings);
+  var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+    'PAYRIGHT',
+    'PAYRIGHT',
+    'test channel description',
+    importance: Importance.max,
+    priority: Priority.high,
+  );
+  var iosPlatformChannelSpecifics = IOSNotificationDetails();
+  var platformChannelSpecifics = NotificationDetails();
+  flutterLocalNotificationsPlugin.show(
+      1, title, content, platformChannelSpecifics);
+}
+
 // ignore: must_be_immutable
 class InAppWebViewExampleScreen extends StatefulWidget {
   String clickToAction;
@@ -53,7 +95,8 @@ class InAppWebViewExampleScreen extends StatefulWidget {
       _InAppWebViewExampleScreenState();
 }
 
-class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
+class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen>
+    with WidgetsBindingObserver {
   InAppWebViewController webView;
   ContextMenu contextMenu;
   String url = "";
@@ -109,19 +152,48 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
   var databaseHelper = new DatabaseHelper();
   List<Widget> myListNotif = [];
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       new FlutterLocalNotificationsPlugin();
 
   //block var notification end
+  //
+
+  @override
+  void didChangeAppLifecycleState(final AppLifecycleState state) async {
+    if (state == AppLifecycleState.resumed) {
+      // setState(() {
+      //   // ...your code goes here...
+      // });
+      var userinfoTembak = await Data.getData();
+      var user_idTembak = userinfoTembak['user_id'];
+      var tokenTembak = userinfoTembak['token'];
+      var dataTembak = {
+        'user_id': user_idTembak,
+        'token': tokenTembak,
+      };
+
+      print('postdata,$dataTembak');
+      var resTembak =
+          await CallApi().postCheckNotifBackground(dataTembak, 'templink');
+      Map<String, dynamic> decodeTembak = json.decode(resTembak.body);
+      print('URL TEMBAKAN , ' + decodeTembak['link_notif']);
+      if (decodeTembak['link_notif'] != "") {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) =>
+                InAppWebViewExampleScreen(decodeTembak['link_notif'])));
+      }
+      print("aplikasi di resume");
+    }
+  }
 
   @override
   void initState() {
     _state = SSBottomBarState();
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     controller = AdvFabController();
     pr.hide();
-
-    // if (Platform.isAndroid) WebView.platform = SurfaceAndroidWebView();
 
     //read db
     queryDB();
@@ -144,7 +216,15 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
     Future displayNotification(Map<String, dynamic> message) async {
       var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-          'PAYRIGHT', 'PAYRIGHT', 'your channel description');
+        'PAYRIGHT',
+        'PAYRIGHT',
+        'your channel description',
+        importance: Importance.max,
+        priority: Priority.high,
+        playSound: true,
+        timeoutAfter: 5000,
+        styleInformation: DefaultStyleInformation(true, true),
+      );
       var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
       var platformChannelSpecifics = new NotificationDetails();
 
@@ -179,8 +259,6 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
           jenis_notifikasi = 'group';
         }
 
-        print(dataContent);
-        print('isi data contact');
         var group_id = dataContent['notification_group'];
         var group_name = dataContent['notification_group'];
         var click_action = dataContent['click_action'];
@@ -209,11 +287,6 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         var pesan = message['notification']['body'].toString();
         showInfo(context, pesan);
 
-        // _showBottomFlash(
-        //   message['notification']['title'].toString(),
-        //   message['notification']['body'].toString(),
-        // );
-
         // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
         displayNotification(message);
 
@@ -221,10 +294,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         notificationCounterValueNotifer
             .notifyListeners(); // notify listeners here so ValueListenableBuilder will build the widget.
       },
-      onBackgroundMessage: myBackgroundMessageHandler,
-      // onResume: (Map<String, dynamic> message) async {
-      //   print('ada pesan background');
-      // },
+      onBackgroundMessage: backGroundHandler,
 
       onResume: (Map<String, dynamic> message) async {
         print('on resume $message');
@@ -270,7 +340,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
 
         databaseHelper.saveNotification(dataNotifikasi);
 
-        print('database ke save di OnResume');
+        print('database ke save di BACKGROUND');
 
         // initialise the plugin. app_icon needs to be a added as a drawable resource to the Android head project
         displayNotification(message);
@@ -279,7 +349,8 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
         notificationCounterValueNotifer
             .notifyListeners(); // notify listeners here so ValueListenableBuilder will build the widget.
 
-        print('akhir onResume');
+        // print('akhir BACKGROUND');
+        // backGroundHandler(message);
       },
 
       onLaunch: (Map<String, dynamic> message) async {
@@ -311,7 +382,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
   }
 
   Future onSelectNotification(String payload) async {
-    print('ab , $payload');
+    print('payload di background , $payload');
     if (payload != null) {
       debugPrint('notification payload: ' + payload);
     }
@@ -613,15 +684,33 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
                         },
                         initialOptions: InAppWebViewGroupOptions(
                             crossPlatform: InAppWebViewOptions(
-                          // debuggingEnabled: false,
-                          cacheEnabled: true,
-                          javaScriptEnabled: true,
-                        )),
+                              // debuggingEnabled: false,
+                              cacheEnabled: true,
+                              javaScriptEnabled: true,
+                              debuggingEnabled: false,
+                              javaScriptCanOpenWindowsAutomatically: true,
+                            ),
+                            android: AndroidInAppWebViewOptions(
+                              disableDefaultErrorPage: true,
+                            )),
                         onWebViewCreated: (InAppWebViewController controller) {
                           clearSessionCache:
                           false;
+
                           webView = controller;
                           withLocalStorage:
+                          true;
+                        },
+                        androidOnPermissionRequest:
+                            (InAppWebViewController controller, String origin,
+                                List<String> resources) async {
+                          return PermissionRequestResponse(
+                              resources: resources,
+                              action: PermissionRequestResponseAction.GRANT);
+                        },
+                        androidOnRequestFocus:
+                            (InAppWebViewController controller) {
+                          androidOnRequestFocus:
                           true;
                         },
                         onLoadError: (InAppWebViewController controller,
@@ -1181,6 +1270,65 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
     );
   }
 
+  Future showNotifBackground(Map<String, dynamic> message) async {
+    print(message.toString());
+    DateTime now = DateTime.now();
+    DateFormat formatTanggal = DateFormat('yyyy-MM-dd');
+    DateFormat formatJam = DateFormat('H:m');
+    String tanggal = formatTanggal.format(now);
+    String jam = formatJam.format(now);
+    // var isidata = message['data'];
+    // var extractdata = JSON.jsonDecode(isidata['data']);
+    // Map<String, dynamic> dataContent = extractdata;
+    // String jenis_notifikasi = dataContent['jenis_notifikasi'];
+    // String group_id = dataContent['notification_group'];
+    // String group_name = dataContent['notification_group'];
+    // String click_action = dataContent['click_action'];
+    // String href = dataContent['href_notification'];
+    // String param = dataContent['parameters'];
+    String jenisNotifikasi = "group";
+    if (message['data'] == 'private') {
+      jenisNotifikasi = 'private';
+    }
+    var dataNotifikasi = new NotifikasiModel(
+        "1",
+        message['data']['title'].toString(),
+        message['data']['body'].toString(),
+        tanggal.toString(),
+        jam.toString(),
+        jenisNotifikasi,
+        'unread',
+        message['data']['notification_group'].toString(),
+        message['data']['notif_group_name'].toString(),
+        message['data']['click_action'].toString(),
+        message['data']['href_notification'].toString(),
+        message['data']['parameters'].toString());
+    databaseHelper.saveNotification(dataNotifikasi);
+    print('database ke save ' + message['data']['title'].toString());
+
+    var initializationSettingsAndroid =
+        AndroidInitializationSettings('@drawable/logo');
+    var initializationSettings =
+        InitializationSettings(android: initializationSettingsAndroid);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
+
+    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+        'PAYRIGHT', 'PAYRIGHT', 'your channel description',
+        importance: Importance.max, priority: Priority.high, showWhen: false);
+
+    var platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics);
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      message['data']['title'].toString(),
+      message['data']['body'].toString(),
+      platformChannelSpecifics,
+      payload: 'background',
+    );
+  }
+
   void _showBottomFlash(String title, String pesan) {
     bool persistent = false;
     // EdgeInsets margin = EdgeInsets.zero;
@@ -1315,6 +1463,9 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen> {
   }
 }
 
-Future<dynamic> myBackgroundMessageHandler(Map<String, dynamic> message) async {
-  print('handle');
-}
+// Future<dynamic> backGroundHandler(Map<String, dynamic> message) async {
+//   print("DING");
+//   _InAppWebViewExampleScreenState notificationClass =
+//       new _InAppWebViewExampleScreenState();
+//   notificationClass.showNotifBackground(message);
+// }

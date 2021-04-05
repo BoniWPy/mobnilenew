@@ -51,6 +51,13 @@ class CallApi {
         body: jsonEncode(data), headers: _setHeaders());
   }
 
+  postCheckNotifBackground(data, apiUrl) async {
+    var fullUrl = _urlNotif + apiUrl;
+    print(fullUrl);
+    return await http.post(fullUrl,
+        body: jsonEncode(data), headers: _setHeaders());
+  }
+
   _setHeaders() =>
       {'Content-type': 'application/json', 'Accept': 'application/json'};
 }

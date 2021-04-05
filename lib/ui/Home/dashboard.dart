@@ -11,7 +11,7 @@ import 'package:new_payrightsystem/utils/shared_preferences.dart';
 import 'package:new_payrightsystem/utils/notification_services.dart';
 import 'package:new_payrightsystem/utils/push_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:new_payrightsystem/utils/api/api.dart';
@@ -61,8 +61,8 @@ class _dashboardState extends State<dashboard> {
 
   int _counter = 0;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      new FlutterLocalNotificationsPlugin();
+  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //     new FlutterLocalNotificationsPlugin();
 
   String _homeScreenText = "Waiting for token...";
   String _messageText = "Waiting for message...";
@@ -112,13 +112,13 @@ class _dashboardState extends State<dashboard> {
       pr.hide();
     });
 
-    var initializationSettingsAndroid =
-        new AndroidInitializationSettings('logo');
+    // var initializationSettingsAndroid =
+    //     new AndroidInitializationSettings('logo');
 
-    var initializationSettings = new InitializationSettings();
+    // var initializationSettings = new InitializationSettings();
 
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: onSelectNotification);
+    // flutterLocalNotificationsPlugin.initialize(initializationSettings,
+    //     onSelectNotification: onSelectNotification);
 
     _firebaseMessaging.configure(
       onMessage: (Map<String, dynamic> message) {
@@ -198,10 +198,10 @@ class _dashboardState extends State<dashboard> {
 
   Future displayNotification(Map<String, dynamic> message) async {
     print('aa');
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'Payrightsystem', 'Payrightsystem', 'your channel description');
-    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-    var platformChannelSpecifics = new NotificationDetails();
+    // var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+    // 'Payrightsystem', 'Payrightsystem', 'your channel description');
+    // var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    // var platformChannelSpecifics = new NotificationDetails();
 
     final DateTime now = DateTime.now();
     final DateFormat formatTanggal = DateFormat('yyyy-MM-dd');
@@ -209,13 +209,13 @@ class _dashboardState extends State<dashboard> {
     final String tanggal = formatTanggal.format(now);
     final String jam = formatJam.format(now);
 
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      message['notification']['title'],
-      message['notification']['body'],
-      platformChannelSpecifics,
-      payload: 'hello',
-    );
+    // await flutterLocalNotificationsPlugin.show(
+    //   0,
+    //   message['notification']['title'],
+    //   message['notification']['body'],
+    //   platformChannelSpecifics,
+    //   payload: 'hello',
+    // );
   }
 
   Future onSelectNotification(String payload) async {

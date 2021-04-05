@@ -21,7 +21,7 @@ import 'package:new_payrightsystem/utils/shared_preferences.dart';
 // import 'package:new_payrightsystem/utils/notification_services.dart';
 import 'package:new_payrightsystem/utils/push_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:new_payrightsystem/utils/api/api.dart';
@@ -97,8 +97,8 @@ class _dashboardState extends State<dashboard> with TickerProviderStateMixin {
   List<Widget> listViewHistory = [];
   int _counter = 0;
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      new FlutterLocalNotificationsPlugin();
+  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //     new FlutterLocalNotificationsPlugin();
 
   // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -187,13 +187,13 @@ class _dashboardState extends State<dashboard> with TickerProviderStateMixin {
       valueListenable: notificationCounterValueNotifer,
     );
 
-    var initializationSettingsAndroid =
-        new AndroidInitializationSettings('logo');
+    // var initializationSettingsAndroid =
+    //     new AndroidInitializationSettings('logo');
 
-    var initializationSettings = new InitializationSettings();
+    // var initializationSettings = new InitializationSettings();
 
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
-        onSelectNotification: onSelectNotification);
+    // flutterLocalNotificationsPlugin.initialize(initializationSettings,
+    //     onSelectNotification: onSelectNotification);
 
     _firebaseMessaging.configure(
       // ignore: missing_return
@@ -272,18 +272,18 @@ class _dashboardState extends State<dashboard> with TickerProviderStateMixin {
   }
 
   Future displayNotification(Map<String, dynamic> message) async {
-    var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'Payrightsystem', 'Payrightsystem', 'your channel description');
-    var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
-    var platformChannelSpecifics = new NotificationDetails();
+    // var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
+    //     'Payrightsystem', 'Payrightsystem', 'your channel description');
+    // var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
+    // var platformChannelSpecifics = new NotificationDetails();
 
-    await flutterLocalNotificationsPlugin.show(
-      0,
-      message['notification']['title'],
-      message['notification']['body'],
-      platformChannelSpecifics,
-      payload: 'hello',
-    );
+    // await flutterLocalNotificationsPlugin.show(
+    //   0,
+    //   message['notification']['title'],
+    //   message['notification']['body'],
+    //   platformChannelSpecifics,
+    //   payload: 'hello',
+    // );
   }
 
   Future onSelectNotification(String payload) async {
