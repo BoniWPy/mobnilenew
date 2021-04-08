@@ -17,6 +17,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/services.dart';
 import 'package:new_payrightsystem/ui/Home/webviewMain.dart';
 
+import 'dart:developer';
+import 'dart:io';
+import 'dart:convert' as JSON;
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
+
+import 'package:new_payrightsystem/utils/dynamiclink_service.dart';
+
 // import 'package:overlay_support/overlay_support.dart';
 
 // import 'package:device_info/device_info.dart';
@@ -56,43 +63,19 @@ class Splash extends StatefulWidget {
 }
 
 class SplashState extends State<Splash> {
-  // String _networkStatus = '';
-
-  // //TODO: device information, to checking the device has been jailbroken or no.
-  // void checkDevice() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   bool isJailBroken = await TrustFall.isJailBroken;
-  //   bool canMockLocation = await TrustFall.canMockLocation;
-  //   bool isOnExternalStorage = await TrustFall.isOnExternalStorage;
-  //   bool isTrustFall = await TrustFall.isTrustFall;
-  //   print(isJailBroken);
-  //   print(canMockLocation);
-  //   bool _isJailBroken = await prefs.setBool('jailbroken', isJailBroken);
-  //   bool _canMockLocation = await prefs.setBool('mock', canMockLocation);
-  // }
-
-  //TODO: new bug, user always logout
-  //FIXME: @170220 true
-
   var _isLogginShared;
 
   Future<bool> pageRouteCheck() async {
     var userinfo = await Data.getData();
     var userinfoEmpty = userinfo.isNotEmpty;
     print('apakah userinfo tidak kosong [diPageRouteChek], $userinfoEmpty');
+    this.initDynamicLinks(context);
     checkFirstSeen(userinfoEmpty);
   }
 
   Future<String> checkFirstSeen(userinfoEmpty) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // var databaseHelper = new DatabaseHelper() ;
-    // databaseHelper.initDb();
-    // var dbClient = await databaseHelper.db;
-    // var dataUser = new User(
-    //   "081223",
-    //   "123456"
-    // );
-    // databaseHelper.saveUser(dataUser);
+
     bool _isLoggin = (prefs.getBool('isLogin') ?? false);
     bool _seen = (prefs.getBool('seen') ?? false);
 
@@ -130,12 +113,33 @@ class SplashState extends State<Splash> {
     // FirebaseApp.initializeApp();
     new Timer(new Duration(milliseconds: 3000), () {
       //getSavedData();
+      // this.initDynamicLinks(context);
       pageRouteCheck();
       // checkDevice();
       // print('pemanggilan class');
       //PushNotificationsManager();
 
       ///checkFirstSeen();
+    });
+  }
+
+  initDynamicLinks(BuildContext context) async {
+    await Future.delayed(Duration(seconds: 4));
+    print('masuk ke dinamic link');
+    var data = await FirebaseDynamicLinks.instance.getInitialLink();
+    var deepLink = data?.link;
+    print('ini deplink nya , $deepLink');
+    final queryParams = deepLink.queryParameters;
+    if (queryParams.length > 0) {
+      print('tewak pram');
+      // var userName = queryParams['userId'];
+      var token = queryParams['token'];
+    }
+    FirebaseDynamicLinks.instance.onLink(onSuccess: (dynamicLink) async {
+      var deepLink = dynamicLink?.link;
+      debugPrint('DynamicLinks onLink $deepLink');
+    }, onError: (e) async {
+      debugPrint('DynamicLinks onError $e');
     });
   }
 

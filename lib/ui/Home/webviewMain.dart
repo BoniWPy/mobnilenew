@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
 import 'dart:convert' as JSON;
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -47,8 +48,10 @@ import 'package:flash/flash.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:new_payrightsystem/utils/notification/notification_meeting.dart';
 
+import 'package:new_payrightsystem/utils/dynamiclink_service.dart';
+
 Future<dynamic> backGroundHandler(Map<String, dynamic> message) async {
-  print("masuk background");
+  print("ANJING");
   _InAppWebViewExampleScreenState notificationClass =
       new _InAppWebViewExampleScreenState();
   notificationClass.showNotifBackground(message);
@@ -162,9 +165,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen>
   @override
   void didChangeAppLifecycleState(final AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
-      // setState(() {
-      //   // ...your code goes here...
-      // });
+      initDynamicLinks();
       var userinfoTembak = await Data.getData();
       var user_idTembak = userinfoTembak['user_id'];
       var tokenTembak = userinfoTembak['token'];
@@ -216,15 +217,13 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen>
 
     Future displayNotification(Map<String, dynamic> message) async {
       var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-        'PAYRIGHT',
-        'PAYRIGHT',
-        'your channel description',
-        importance: Importance.max,
-        priority: Priority.high,
-        playSound: true,
-        timeoutAfter: 5000,
-        styleInformation: DefaultStyleInformation(true, true),
-      );
+          'PAYRIGHT', 'PAYRIGHT', 'your channel description',
+          importance: Importance.max,
+          priority: Priority.high,
+          playSound: true,
+          timeoutAfter: 5000,
+          styleInformation: DefaultStyleInformation(true, true),
+          visibility: NotificationVisibility.public);
       var iOSPlatformChannelSpecifics = new IOSNotificationDetails();
       var platformChannelSpecifics = new NotificationDetails();
 
@@ -294,7 +293,7 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen>
         notificationCounterValueNotifer
             .notifyListeners(); // notify listeners here so ValueListenableBuilder will build the widget.
       },
-      onBackgroundMessage: backGroundHandler,
+      onBackgroundMessage: Platform.isAndroid ? backGroundHandler : null,
 
       onResume: (Map<String, dynamic> message) async {
         print('on resume $message');
@@ -370,6 +369,49 @@ class _InAppWebViewExampleScreenState extends State<InAppWebViewExampleScreen>
       var body = json.decode(res.body);
       print('UPDATE TOKEN, $body');
     });
+  }
+
+  // initDynamicLinks(BuildContext context) async {
+  //   await Future.delayed(Duration(seconds: 2));
+  //   print('masuk ke dinamic link');
+  //   var data = await FirebaseDynamicLinks.instance.getInitialLink();
+  //   var deepLink = data?.link;
+  //   print('ini deplink nya , $deepLink');
+  //   final queryParams = deepLink.queryParameters;
+  //   if (queryParams.length > 0) {
+  //     print('tewak pram');
+  //     // var userName = queryParams['userId'];
+  //     var token = queryParams['token'];
+  //   }
+  //   FirebaseDynamicLinks.instance.onLink(onSuccess: (dynamicLink) async {
+  //     var deepLink = dynamicLink?.link;
+  //     debugPrint('DynamicLinks onLink $deepLink');
+  //   }, onError: (e) async {
+  //     debugPrint('DynamicLinks onError $e');
+  //   });
+  // }
+  //
+  void initDynamicLinks() async {
+    print('GAIS');
+    FirebaseDynamicLinks.instance.onLink(
+        onSuccess: (PendingDynamicLinkData dynamicLink) async {
+      final Uri deepLink = dynamicLink?.link;
+
+      if (deepLink != null) {
+        Navigator.pushNamed(context, deepLink.path);
+      }
+    }, onError: (OnLinkErrorException e) async {
+      print('onLinkError');
+      print(e.message);
+    });
+
+    final PendingDynamicLinkData data =
+        await FirebaseDynamicLinks.instance.getInitialLink();
+    final Uri deepLink = data?.link;
+
+    if (deepLink != null) {
+      Navigator.pushNamed(context, deepLink.path);
+    }
   }
 
   Future<String> queryDB() async {

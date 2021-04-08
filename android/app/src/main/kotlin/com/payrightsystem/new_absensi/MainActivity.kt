@@ -8,5 +8,7 @@ import io.flutter.plugins.GeneratedPluginRegistrant
 
 
 class MainActivity(): FlutterActivity() {
+
+    
   
 }
